@@ -1,0 +1,201 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "howItWorks": "Comment Ça Marche",
+    "examples": "Exemples",
+    "faq": "Questions",
+    "signIn": "Se Connecter",
+    "signOut": "Déconnexion",
+    "app": "Créer Portrait",
+    "groupSelfie": "Selfie de Groupe",
+    "gallery": "Galerie",
+    "costumes": "Costumes"
+  },
+  "hero": {
+    "headline": "Transformez-vous en N'importe Quel Personnage",
+    "subheadline": "Portraits de costumes propulsés par l'IA en quelques secondes. Téléchargez votre selfie, décrivez le costume de vos rêves et regardez la magie opérer.",
+    "cta": "Créer Mon Portrait de Costume",
+    "ctaSecondary": "Voir les Exemples",
+    "noCreditCard": "Aucune carte de crédit requise pour commencer"
+  },
+  "examples": {
+    "title": "Transformations Incroyables",
+    "subtitle": "Découvrez ce que notre IA peut créer pour vous",
+    "viewMore": "Voir Plus d'Exemples"
+  },
+  "groupSelfieExamples": {
+    "title": "Selfies de Groupe Effrayants",
+    "subtitle": "Combinez vos portraits de costumes en scènes de groupe hantées"
+  },
+  "howItWorks": {
+    "title": "Comment Ça Marche",
+    "subtitle": "Créez votre portrait de costume parfait en quatre étapes simples",
+    "step1": {
+      "title": "Téléchargez Votre Selfie",
+      "description": "Prenez ou téléchargez une photo. Optionnel mais recommandé pour des résultats personnalisés."
+    },
+    "step2": {
+      "title": "Décrivez Votre Costume",
+      "description": "N'importe quel personnage que vous pouvez imaginer - des vampires aux super-héros en passant par les créatures fantastiques."
+    },
+    "step3": {
+      "title": "Obtenez Votre Portrait",
+      "description": "Téléchargez et partagez votre portrait généré par IA en quelques secondes."
+    },
+    "step4": {
+      "title": "Créez des Selfies de Groupe",
+      "description": "Combinez deux portraits de costumes en selfies de groupe effrayants dans des décors hantés."
+    }
+  },
+  "faq": {
+    "title": "Questions Fréquemment Posées",
+    "subtitle": "Tout ce que vous devez savoir",
+    "q1": {
+      "question": "Dois-je télécharger un selfie?",
+      "answer": "Non, mais cela aide à créer un portrait qui vous ressemble. Vous pouvez également générer sans pour des idées de costumes génériques."
+    },
+    "q2": {
+      "question": "Combien de bonbons cela coûte-t-il?",
+      "answer": "5 bonbons par génération de portrait. Vous obtenez des bonbons gratuits lors de votre inscription pour commencer."
+    },
+    "q3": {
+      "question": "Qu'est-ce qui fait une bonne description de costume?",
+      "answer": "Soyez précis! Au lieu de 'vampire,' essayez 'vampire victorien élégant avec des yeux rouges.' Plus de détails, meilleur sera le résultat."
+    },
+    "q4": {
+      "question": "Puis-je télécharger et partager mes portraits?",
+      "answer": "Absolument! Tous les portraits générés sont à vous pour télécharger, partager sur les réseaux sociaux et utiliser comme vous le souhaitez."
+    },
+    "q5": {
+      "question": "Combien de temps prend la génération?",
+      "answer": "La plupart des portraits sont prêts en 30-60 secondes. Nous afficherons une animation de chargement pendant que l'IA travaille sa magie."
+    },
+    "q6": {
+      "question": "Que faire si je n'aime pas mon résultat?",
+      "answer": "Essayez d'ajuster votre description ou de télécharger une photo différente. Vous pouvez générer autant de variations que vous le souhaitez."
+    },
+    "q7": {
+      "question": "Mes données photo sont-elles sécurisées?",
+      "answer": "Oui! Nous utilisons une sécurité de niveau entreprise. Vos photos sont traitées en toute sécurité et stockées avec cryptage."
+    },
+    "q8": {
+      "question": "Puis-je les utiliser commercialement?",
+      "answer": "Les portraits générés sont pour un usage personnel. Contactez-nous pour des options de licence commerciale."
+    }
+  },
+  "finalCta": {
+    "title": "Prêt à Vous Transformer?",
+    "subtitle": "Rejoignez des milliers de personnes créant d'incroyables portraits de costumes avec l'IA",
+    "cta": "Commencer à Créer Gratuitement",
+    "noCreditCard": "Aucune carte de crédit requise • 5 bonbons par portrait"
+  },
+  "footer": {
+    "tagline": "Transformez-vous en n'importe qui avec des portraits de costumes propulsés par l'IA",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation",
+    "contact": "Contact"
+  },
+  "workflow": {
+    "title": "Générateur de Portraits de Costumes",
+    "subtitle": "Téléchargez un selfie, entrez une idée de costume et regardez la magie opérer!",
+    "selfieLabel": "Votre Selfie",
+    "selfieOptional": "(optionnel)",
+    "costumeLabel": "Idée de Costume",
+    "costumeRequired": "*",
+    "costumePlaceholder": "ex., Scooby Doo, Vampire, Sorcière, Super-héros...",
+    "costumeHint": "Soyez créatif! Décrivez n'importe quel costume que vous pouvez imaginer.",
+    "generateButton": "Générer Portrait de Costume",
+    "generating": "Génération de Magie...",
+    "examplesTitle": "Exemples de Résultats",
+    "resultsTitle": "Votre Portrait de Costume",
+    "resultsEmpty": "Votre portrait apparaîtra ici",
+    "resultsEmptySubtitle": "Remplissez le formulaire et cliquez sur générer pour commencer",
+    "downloadButton": "Télécharger",
+    "successMessage": "Portrait généré avec succès!",
+    "errorTitle": "Erreur",
+    "warningsTitle": "Avertissements",
+    "processingMessage": "Création de votre portrait effrayant...",
+    "processingSubtitle": "Cela peut prendre un moment"
+  },
+  "user": {
+    "candy": "Bonbons",
+    "freePlan": "Plan Gratuit",
+    "activeSubscription": "Abonnement Actif",
+    "getMoreCandy": "Obtenir plus de bonbons",
+    "manageSubscription": "Gérer l'Abonnement",
+    "signOut": "Déconnexion"
+  },
+  "errors": {
+    "insufficientCredits": "Pas assez de bonbons! Veuillez mettre à niveau votre abonnement pour continuer.",
+    "rateLimitExceeded": "Limite de débit dépassée.",
+    "genericError": "Une erreur s'est produite lors de l'exécution du flux de travail",
+    "upgradeNow": "Mettre à niveau maintenant"
+  },
+  "groupSelfie": {
+    "title": "Générateur de Selfie de Groupe",
+    "subtitle": "Combinez deux personnes dans une scène de selfie de groupe amusante. Téléchargez vos portraits de costumes ou n'importe quelle photo!",
+    "costBadge": "Coût: 7 bonbons par génération",
+    "inputTitle": "Entrée",
+    "person1Label": "Personne 1",
+    "person2Label": "Personne 2",
+    "personOptional": "(optionnel)",
+    "settingLabel": "Cadre / Scène",
+    "settingPlaceholder": "ex., fête d'Halloween, vacances à la plage, café, concert...",
+    "settingHint": "Décrivez où vous voulez que le selfie de groupe se déroule.",
+    "generateButton": "Générer Selfie de Groupe",
+    "generating": "Création de Magie...",
+    "examplesTitle": "Exemples de Résultats",
+    "resultsTitle": "Votre Selfie de Groupe",
+    "resultsEmpty": "Votre selfie de groupe apparaîtra ici",
+    "resultsEmptySubtitle": "Téléchargez des photos et décrivez un cadre pour commencer",
+    "successMessage": "Selfie de groupe généré avec succès!",
+    "processingMessage": "Création de votre selfie de groupe...",
+    "processingSubtitle": "Cela peut prendre un moment",
+    "backToCostumes": "← Costumes"
+  },
+  "people": {
+    "managerTitle": "Gérer les Personnes",
+    "managerSubtitle": "Ajoutez et gérez des personnes à utiliser dans vos portraits de costumes",
+    "addPersonButton": "Ajouter une Nouvelle Personne",
+    "addPersonTitle": "Ajouter une Nouvelle Personne",
+    "addFirstPerson": "Ajoutez Votre Première Personne",
+    "nameLabel": "Nom",
+    "namePlaceholder": "ex., Jean, Marie, Moi...",
+    "photoLabel": "Photo",
+    "saveButton": "Enregistrer la Personne",
+    "cancelButton": "Annuler",
+    "confirmDelete": "Confirmer la Suppression",
+    "emptyState": "Aucune personne pour le moment",
+    "emptyStateSubtitle": "Ajoutez des personnes pour les utiliser dans vos portraits de costumes",
+    "usedCount": "Utilisé {{count}} fois",
+    "createdDate": "Ajouté le {{date}}",
+    "selectPersonLabel": "Sélectionner une Personne",
+    "manageButton": "Gérer les Personnes",
+    "noPeopleYet": "Aucune personne ajoutée pour le moment",
+    "noPersonSelected": "Aucune personne sélectionnée"
+  },
+  "outputs": {
+    "noOutputsYet": "Aucun portrait de costume pour le moment",
+    "createFirstOutput": "Créez Votre Premier Portrait",
+    "noOutputSelected": "Aucun portrait sélectionné",
+    "previousGenerations": "Générations Précédentes",
+    "showingRecent": "Affichage de {{count}} sur {{total}} générations récentes",
+    "clickToView": "Cliquez pour voir en taille réelle",
+    "selectFromPrevious": "Sélectionnez parmi vos portraits de costumes précédents:",
+    "selectDifferent": "Sélectionnez un portrait différent:",
+    "scrollToSeeMore": "Faites défiler pour en voir plus"
+  },
+  "gallery": {
+    "title": "Votre Galerie",
+    "subtitle": "Parcourez tous vos portraits de costumes et selfies de groupe",
+    "filterAll": "Tous",
+    "filterCostumes": "Costumes",
+    "filterGroupSelfies": "Selfies de Groupe",
+    "empty": "Aucune création pour le moment",
+    "emptySubtitle": "Commencez par créer un portrait de costume ou un selfie de groupe",
+    "createCostume": "Créer Portrait de Costume",
+    "createGroupSelfie": "Créer Selfie de Groupe",
+    "typeCostume": "Costume",
+    "typeGroupSelfie": "Selfie de Groupe"
+  }
+}

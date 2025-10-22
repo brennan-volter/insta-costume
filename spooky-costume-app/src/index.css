@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@import "@fontsource/space-grotesk/400.css";
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+
+@theme {
+  /* Orange Scale */
+  --color-orange-950: #1a0f0a;
+  --color-orange-900: #2d1810;
+  --color-orange-800: #4a2615;
+  --color-orange-700: #6b3719;
+  --color-orange-600: #8f4e2a;
+  --color-orange-500: #b8744d;
+  --color-orange-400: #d49a7b;
+  --color-orange-300: #e6bfa5;
+  --color-orange-200: #f5e5d9;
+  --color-orange-100: #fdf7f3;
+
+  /* Purple Scale */
+  --color-purple-950: #120a1a;
+  --color-purple-900: #1e1029;
+  --color-purple-800: #2f1a42;
+  --color-purple-700: #432a5c;
+  --color-purple-600: #5a3d76;
+  --color-purple-500: #7a5a96;
+  --color-purple-400: #9d7fb5;
+  --color-purple-300: #c0acd4;
+  --color-purple-200: #e3daea;
+  --color-purple-100: #f5f2f8;
+
+  /* Neutral Scale (Dark) */
+  --color-neutral-950: #0a0a0b;
+  --color-neutral-900: #121214;
+  --color-neutral-800: #1a1a1d;
+  --color-neutral-700: #242428;
+  --color-neutral-600: #35353a;
+  --color-neutral-500: #52525b;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-50: #fafafa;
+
+  /* Font Families */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --spacing-section-mobile: 3rem;
+  --spacing-section-desktop: 6rem;
+}
+
+:root {
+  /* Custom CSS variables for complex values */
+  --gradient-primary: linear-gradient(135deg, #5a3d76 0%, #8f4e2a 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #7a5a96 0%, #b8744d 100%);
+  --gradient-hero: linear-gradient(180deg, #120a1a 0%, #1a0f0a 50%, #0a0a0b 100%);
+  --gradient-card: linear-gradient(145deg, #1e1029 0%, #2d1810 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(90, 61, 118, 0.3) 0%, transparent 70%);
+
+  --shadow-glow-purple: 0 4px 20px rgba(90, 61, 118, 0.4);
+  --shadow-glow-purple-hover: 0 6px 30px rgba(90, 61, 118, 0.6);
+  --shadow-glow-orange: 0 12px 40px rgba(143, 78, 42, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #121214;
+  color: #d4d4d8;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #f4f4f5;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid #7a5a96;
+  outline-offset: 2px;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

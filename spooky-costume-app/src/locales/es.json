@@ -1,0 +1,201 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "howItWorks": "Cómo Funciona",
+    "examples": "Ejemplos",
+    "faq": "Preguntas",
+    "signIn": "Iniciar Sesión",
+    "signOut": "Cerrar Sesión",
+    "app": "Crear Retrato",
+    "groupSelfie": "Selfie Grupal",
+    "gallery": "Galería",
+    "costumes": "Disfraces"
+  },
+  "hero": {
+    "headline": "Transfórmate en Cualquier Personaje",
+    "subheadline": "Retratos de disfraces con IA en segundos. Sube tu selfie, describe tu disfraz soñado y observa la magia.",
+    "cta": "Crear Mi Retrato de Disfraz",
+    "ctaSecondary": "Ver Ejemplos",
+    "noCreditCard": "No se requiere tarjeta de crédito para comenzar"
+  },
+  "examples": {
+    "title": "Transformaciones Increíbles",
+    "subtitle": "Mira lo que nuestra IA puede crear para ti",
+    "viewMore": "Ver Más Ejemplos"
+  },
+  "groupSelfieExamples": {
+    "title": "Selfies Grupales Espeluznantes",
+    "subtitle": "Combina tus retratos de disfraces en escenas grupales embrujadas"
+  },
+  "howItWorks": {
+    "title": "Cómo Funciona",
+    "subtitle": "Crea tu retrato de disfraz perfecto en cuatro simples pasos",
+    "step1": {
+      "title": "Sube Tu Selfie",
+      "description": "Toma o sube una foto. Opcional pero recomendado para resultados personalizados."
+    },
+    "step2": {
+      "title": "Describe Tu Disfraz",
+      "description": "Cualquier personaje que puedas imaginar - desde vampiros hasta superhéroes y criaturas fantásticas."
+    },
+    "step3": {
+      "title": "Obtén Tu Retrato",
+      "description": "Descarga y comparte tu retrato generado por IA en segundos."
+    },
+    "step4": {
+      "title": "Crea Selfies Grupales",
+      "description": "Combina dos retratos de disfraces en selfies grupales espeluznantes en entornos embrujados."
+    }
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Todo lo que necesitas saber",
+    "q1": {
+      "question": "¿Necesito subir una selfie?",
+      "answer": "No, pero ayuda a crear un retrato que se parezca a ti. También puedes generar sin una para ideas genéricas de disfraces."
+    },
+    "q2": {
+      "question": "¿Cuántos dulces cuesta?",
+      "answer": "5 dulces por generación de retrato. Obtienes dulces gratis al registrarte para empezar."
+    },
+    "q3": {
+      "question": "¿Qué hace una buena descripción de disfraz?",
+      "answer": "¡Sé específico! En lugar de 'vampiro,' prueba 'vampiro victoriano elegante con ojos rojos.' Cuantos más detalles, mejor el resultado."
+    },
+    "q4": {
+      "question": "¿Puedo descargar y compartir mis retratos?",
+      "answer": "¡Absolutamente! Todos los retratos generados son tuyos para descargar, compartir en redes sociales y usar como quieras."
+    },
+    "q5": {
+      "question": "¿Cuánto tiempo tarda la generación?",
+      "answer": "La mayoría de los retratos están listos en 30-60 segundos. Te mostraremos una animación de carga mientras la IA hace su magia."
+    },
+    "q6": {
+      "question": "¿Qué pasa si no me gusta mi resultado?",
+      "answer": "Intenta ajustar tu descripción o subir una foto diferente. Puedes generar tantas variaciones como quieras."
+    },
+    "q7": {
+      "question": "¿Mis datos fotográficos están seguros?",
+      "answer": "¡Sí! Usamos seguridad de nivel empresarial. Tus fotos se procesan de forma segura y se almacenan con encriptación."
+    },
+    "q8": {
+      "question": "¿Puedo usar estos comercialmente?",
+      "answer": "Los retratos generados son para uso personal. Contáctanos para opciones de licencia comercial."
+    }
+  },
+  "finalCta": {
+    "title": "¿Listo para Transformarte?",
+    "subtitle": "Únete a miles creando increíbles retratos de disfraces con IA",
+    "cta": "Comenzar a Crear Gratis",
+    "noCreditCard": "No se requiere tarjeta de crédito • 5 dulces por retrato"
+  },
+  "footer": {
+    "tagline": "Transfórmate en cualquiera con retratos de disfraces impulsados por IA",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "contact": "Contacto"
+  },
+  "workflow": {
+    "title": "Generador de Retratos de Disfraces",
+    "subtitle": "¡Sube una selfie, ingresa una idea de disfraz y observa la magia!",
+    "selfieLabel": "Tu Selfie",
+    "selfieOptional": "(opcional)",
+    "costumeLabel": "Idea de Disfraz",
+    "costumeRequired": "*",
+    "costumePlaceholder": "ej., Scooby Doo, Vampiro, Bruja, Superhéroe...",
+    "costumeHint": "¡Sé creativo! Describe cualquier disfraz que puedas imaginar.",
+    "generateButton": "Generar Retrato de Disfraz",
+    "generating": "Generando Magia...",
+    "examplesTitle": "Ejemplos de Resultados",
+    "resultsTitle": "Tu Retrato de Disfraz",
+    "resultsEmpty": "Tu retrato aparecerá aquí",
+    "resultsEmptySubtitle": "Completa el formulario y haz clic en generar para comenzar",
+    "downloadButton": "Descargar",
+    "successMessage": "¡Retrato generado exitosamente!",
+    "errorTitle": "Error",
+    "warningsTitle": "Advertencias",
+    "processingMessage": "Creando tu retrato espeluznante...",
+    "processingSubtitle": "Esto puede tomar un momento"
+  },
+  "user": {
+    "candy": "Dulces",
+    "freePlan": "Plan Gratuito",
+    "activeSubscription": "Suscripción Activa",
+    "getMoreCandy": "Obtener más dulces",
+    "manageSubscription": "Gestionar Suscripción",
+    "signOut": "Cerrar Sesión"
+  },
+  "errors": {
+    "insufficientCredits": "¡No hay suficientes dulces! Por favor actualiza tu suscripción para continuar.",
+    "rateLimitExceeded": "Límite de tasa excedido.",
+    "genericError": "Ocurrió un error al ejecutar el flujo de trabajo",
+    "upgradeNow": "Actualizar ahora"
+  },
+  "groupSelfie": {
+    "title": "Generador de Selfie Grupal",
+    "subtitle": "¡Combina dos personas en una divertida escena de selfie grupal. Sube tus retratos de disfraces o cualquier foto!",
+    "costBadge": "Costo: 7 dulces por generación",
+    "inputTitle": "Entrada",
+    "person1Label": "Persona 1",
+    "person2Label": "Persona 2",
+    "personOptional": "(opcional)",
+    "settingLabel": "Entorno / Escena",
+    "settingPlaceholder": "ej., fiesta de Halloween, vacaciones en la playa, cafetería, concierto...",
+    "settingHint": "Describe dónde quieres que se realice el selfie grupal.",
+    "generateButton": "Generar Selfie Grupal",
+    "generating": "Creando Magia...",
+    "examplesTitle": "Ejemplos de Resultados",
+    "resultsTitle": "Tu Selfie Grupal",
+    "resultsEmpty": "Tu selfie grupal aparecerá aquí",
+    "resultsEmptySubtitle": "Sube fotos y describe un entorno para comenzar",
+    "successMessage": "¡Selfie grupal generado exitosamente!",
+    "processingMessage": "Creando tu selfie grupal...",
+    "processingSubtitle": "Esto puede tomar un momento",
+    "backToCostumes": "← Disfraces"
+  },
+  "people": {
+    "managerTitle": "Gestionar Personas",
+    "managerSubtitle": "Añade y gestiona personas para usar en tus retratos de disfraces",
+    "addPersonButton": "Añadir Nueva Persona",
+    "addPersonTitle": "Añadir Nueva Persona",
+    "addFirstPerson": "Añade Tu Primera Persona",
+    "nameLabel": "Nombre",
+    "namePlaceholder": "ej., Juan, María, Yo...",
+    "photoLabel": "Foto",
+    "saveButton": "Guardar Persona",
+    "cancelButton": "Cancelar",
+    "confirmDelete": "Confirmar Eliminación",
+    "emptyState": "Aún no hay personas",
+    "emptyStateSubtitle": "Añade personas para usarlas en tus retratos de disfraces",
+    "usedCount": "Usado {{count}} veces",
+    "createdDate": "Añadido {{date}}",
+    "selectPersonLabel": "Seleccionar Persona",
+    "manageButton": "Gestionar Personas",
+    "noPeopleYet": "Aún no se han añadido personas",
+    "noPersonSelected": "Ninguna persona seleccionada"
+  },
+  "outputs": {
+    "noOutputsYet": "Aún no hay retratos de disfraces",
+    "createFirstOutput": "Crea Tu Primer Retrato",
+    "noOutputSelected": "Ningún retrato seleccionado",
+    "previousGenerations": "Generaciones Anteriores",
+    "showingRecent": "Mostrando {{count}} de {{total}} generaciones recientes",
+    "clickToView": "Haz clic para ver en tamaño completo",
+    "selectFromPrevious": "Selecciona de tus retratos de disfraces anteriores:",
+    "selectDifferent": "Selecciona un retrato diferente:",
+    "scrollToSeeMore": "Desplázate para ver más"
+  },
+  "gallery": {
+    "title": "Tu Galería",
+    "subtitle": "Explora todos tus retratos de disfraces y selfies grupales",
+    "filterAll": "Todos",
+    "filterCostumes": "Disfraces",
+    "filterGroupSelfies": "Selfies Grupales",
+    "empty": "Aún no hay creaciones",
+    "emptySubtitle": "Comienza creando un retrato de disfraz o selfie grupal",
+    "createCostume": "Crear Retrato de Disfraz",
+    "createGroupSelfie": "Crear Selfie Grupal",
+    "typeCostume": "Disfraz",
+    "typeGroupSelfie": "Selfie Grupal"
+  }
+}

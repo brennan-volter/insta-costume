@@ -1,0 +1,201 @@
+{
+  "nav": {
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "examples": "Examples",
+    "faq": "FAQ",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "app": "Create Portrait",
+    "groupSelfie": "Group Selfie",
+    "gallery": "Gallery",
+    "costumes": "Costumes"
+  },
+  "hero": {
+    "headline": "Transform Into Any Character",
+    "subheadline": "AI-powered costume portraits in seconds. Upload your selfie, describe your dream costume, and watch the magic happen.",
+    "cta": "Create My Costume Portrait",
+    "ctaSecondary": "See Examples",
+    "noCreditCard": "No credit card required to start"
+  },
+  "examples": {
+    "title": "Amazing Transformations",
+    "subtitle": "See what our AI can create for you",
+    "viewMore": "View More Examples"
+  },
+  "groupSelfieExamples": {
+    "title": "Spooky Group Selfies",
+    "subtitle": "Combine your costume portraits into haunting group scenes"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Create your perfect costume portrait in four simple steps",
+    "step1": {
+      "title": "Upload Your Selfie",
+      "description": "Take or upload a photo. Optional but recommended for personalized results."
+    },
+    "step2": {
+      "title": "Describe Your Costume",
+      "description": "Any character you can imagine - from vampires to superheroes to fantasy creatures."
+    },
+    "step3": {
+      "title": "Get Your Portrait",
+      "description": "Download and share your AI-generated portrait in seconds."
+    },
+    "step4": {
+      "title": "Create Group Selfies",
+      "description": "Combine two costume portraits into spooky group selfies in haunted settings."
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know",
+    "q1": {
+      "question": "Do I need to upload a selfie?",
+      "answer": "No, but it helps create a portrait that looks like you. You can also generate without one for generic costume ideas."
+    },
+    "q2": {
+      "question": "How much candy does it cost?",
+      "answer": "5 pieces of candy per portrait generation. You get free candy when you sign up to get started."
+    },
+    "q3": {
+      "question": "What makes a good costume description?",
+      "answer": "Be specific! Instead of 'vampire,' try 'elegant Victorian vampire with red eyes.' The more details, the better the result."
+    },
+    "q4": {
+      "question": "Can I download and share my portraits?",
+      "answer": "Absolutely! All generated portraits are yours to download, share on social media, and use however you like."
+    },
+    "q5": {
+      "question": "How long does generation take?",
+      "answer": "Most portraits are ready in 30-60 seconds. We'll show you a loading animation while the AI works its magic."
+    },
+    "q6": {
+      "question": "What if I don't like my result?",
+      "answer": "Try adjusting your description or uploading a different photo. You can generate as many variations as you want."
+    },
+    "q7": {
+      "question": "Is my photo data secure?",
+      "answer": "Yes! We use enterprise-grade security. Your photos are processed securely and stored with encryption."
+    },
+    "q8": {
+      "question": "Can I use these commercially?",
+      "answer": "Generated portraits are for personal use. Contact us for commercial licensing options."
+    }
+  },
+  "finalCta": {
+    "title": "Ready to Transform?",
+    "subtitle": "Join thousands creating amazing costume portraits with AI",
+    "cta": "Start Creating for Free",
+    "noCreditCard": "No credit card required • 5 pieces of candy per portrait"
+  },
+  "footer": {
+    "tagline": "Transform into anyone with AI-powered costume portraits",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact"
+  },
+  "workflow": {
+    "title": "Costume Portrait Generator",
+    "subtitle": "Upload a selfie, enter a costume idea, and watch the magic happen!",
+    "selfieLabel": "Your Selfie",
+    "selfieOptional": "(optional)",
+    "costumeLabel": "Costume Idea",
+    "costumeRequired": "*",
+    "costumePlaceholder": "e.g., Scooby Doo, Vampire, Witch, Superhero...",
+    "costumeHint": "Be creative! Describe any costume you can imagine.",
+    "generateButton": "Generate Costume Portrait",
+    "generating": "Generating Magic...",
+    "examplesTitle": "Example Outputs",
+    "resultsTitle": "Your Costume Portrait",
+    "resultsEmpty": "Your portrait will appear here",
+    "resultsEmptySubtitle": "Fill in the form and click generate to start",
+    "downloadButton": "Download",
+    "successMessage": "Portrait generated successfully!",
+    "errorTitle": "Error",
+    "warningsTitle": "Warnings",
+    "processingMessage": "Creating your spooky portrait...",
+    "processingSubtitle": "This may take a moment"
+  },
+  "user": {
+    "candy": "Candy",
+    "freePlan": "Free Plan",
+    "activeSubscription": "Active Subscription",
+    "getMoreCandy": "Get more candy",
+    "manageSubscription": "Manage Subscription",
+    "signOut": "Sign Out"
+  },
+  "errors": {
+    "insufficientCredits": "Not enough candy! Please upgrade your subscription to continue.",
+    "rateLimitExceeded": "Rate limit exceeded.",
+    "genericError": "An error occurred while running the workflow",
+    "upgradeNow": "Upgrade now"
+  },
+  "groupSelfie": {
+    "title": "Group Selfie Generator",
+    "subtitle": "Combine two people into a fun group selfie scene. Upload your costume portraits or any photos!",
+    "costBadge": "Cost: 7 pieces of candy per generation",
+    "inputTitle": "Input",
+    "person1Label": "Person 1",
+    "person2Label": "Person 2",
+    "personOptional": "(optional)",
+    "settingLabel": "Setting / Scene",
+    "settingPlaceholder": "e.g., Halloween party, beach vacation, coffee shop, concert...",
+    "settingHint": "Describe where you want the group selfie to take place.",
+    "generateButton": "Generate Group Selfie",
+    "generating": "Creating Magic...",
+    "examplesTitle": "Example Outputs",
+    "resultsTitle": "Your Group Selfie",
+    "resultsEmpty": "Your group selfie will appear here",
+    "resultsEmptySubtitle": "Upload photos and describe a setting to start",
+    "successMessage": "Group selfie generated successfully!",
+    "processingMessage": "Creating your group selfie...",
+    "processingSubtitle": "This may take a moment",
+    "backToCostumes": "← Costumes"
+  },
+  "people": {
+    "managerTitle": "Manage People",
+    "managerSubtitle": "Add and manage people to use in your costume portraits",
+    "addPersonButton": "Add New Person",
+    "addPersonTitle": "Add New Person",
+    "addFirstPerson": "Add Your First Person",
+    "nameLabel": "Name",
+    "namePlaceholder": "e.g., John, Sarah, Me...",
+    "photoLabel": "Photo",
+    "saveButton": "Save Person",
+    "cancelButton": "Cancel",
+    "confirmDelete": "Confirm Delete",
+    "emptyState": "No people yet",
+    "emptyStateSubtitle": "Add people to use them in your costume portraits",
+    "usedCount": "Used {{count}} times",
+    "createdDate": "Added {{date}}",
+    "selectPersonLabel": "Select Person",
+    "manageButton": "Manage People",
+    "noPeopleYet": "No people added yet",
+    "noPersonSelected": "No person selected"
+  },
+  "outputs": {
+    "noOutputsYet": "No costume portraits yet",
+    "createFirstOutput": "Create Your First Portrait",
+    "noOutputSelected": "No portrait selected",
+    "previousGenerations": "Previous Generations",
+    "showingRecent": "Showing {{count}} of {{total}} recent generations",
+    "clickToView": "Click to view full size",
+    "selectFromPrevious": "Select from your previous costume portraits:",
+    "selectDifferent": "Select a different portrait:",
+    "scrollToSeeMore": "Scroll to see more"
+  },
+  "gallery": {
+    "title": "Your Gallery",
+    "subtitle": "Browse all your costume portraits and group selfies",
+    "filterAll": "All",
+    "filterCostumes": "Costumes",
+    "filterGroupSelfies": "Group Selfies",
+    "empty": "No creations yet",
+    "emptySubtitle": "Start by creating a costume portrait or group selfie",
+    "createCostume": "Create Costume Portrait",
+    "createGroupSelfie": "Create Group Selfie",
+    "typeCostume": "Costume",
+    "typeGroupSelfie": "Group Selfie"
+  }
+}
