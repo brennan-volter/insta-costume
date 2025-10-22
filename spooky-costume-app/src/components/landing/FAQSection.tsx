@@ -47,11 +47,6 @@ const FAQSection: React.FC = () => {
       question: t('faq.q7.question'),
       answer: t('faq.q7.answer'),
     },
-    {
-      id: 'q8',
-      question: t('faq.q8.question'),
-      answer: t('faq.q8.answer'),
-    },
   ];
 
   const toggleItem = (id: string) => {

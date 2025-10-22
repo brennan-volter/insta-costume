@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { useSubscribeDev } from '@subscribe.dev/react';
 import LanguageSelector from './LanguageSelector';
+const instaCostumeLogo = '/images/insta-costume.png';
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -52,7 +53,7 @@ const Header: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 overflow-visible ${
         isScrolled
-          ? 'bg-neutral-900/95 backdrop-blur-md border-b border-neutral-800 shadow-lg'
+          ? 'bg-neutral-900/95 backdrop-blur-md border-b border-neutral-800/30 shadow-lg'
           : 'bg-transparent'
       }`}
     >
@@ -61,9 +62,10 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center font-display font-bold text-neutral-100 hover:text-orange-300 transition-colors flex-shrink-0"
+            className="flex items-center gap-2 font-display font-bold text-neutral-100 hover:text-orange-300 transition-colors flex-shrink-0"
           >
-            <span className="text-xl sm:text-2xl">🎃</span>
+            <img src={instaCostumeLogo} alt="Insta Costume" className="w-6 h-6 sm:w-8 sm:h-8" />
+            <span className="italic text-orange-400 text-lg sm:text-xl tracking-wide">INSTA COSTUME</span>
           </Link>
 
           {/* Navigation - landing page */}
@@ -129,21 +131,12 @@ const Header: React.FC = () => {
                 {/* User Badge */}
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 transition-all"
+                  className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 transition-all"
                 >
-                  {user?.avatarUrl && (
-                    <img
-                      src={user.avatarUrl}
-                      alt="User"
-                      className="w-6 h-6 sm:w-7 sm:h-7 rounded-full"
-                    />
-                  )}
-                  <div className="hidden sm:flex items-center gap-1.5">
-                    <span className="text-lg">🍬</span>
-                    <span className="text-sm font-semibold text-neutral-100">
-                      {usage?.remainingCredits ?? 0}
-                    </span>
-                  </div>
+                  <span className="text-lg">🍬</span>
+                  <span className="text-sm font-semibold text-neutral-100">
+                    {usage?.remainingCredits ?? 0}
+                  </span>
                   <svg
                     className={`w-4 h-4 text-neutral-400 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`}
                     fill="none"

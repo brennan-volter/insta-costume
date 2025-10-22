@@ -12,8 +12,8 @@
     "costumes": "Costumes"
   },
   "hero": {
-    "headline": "Transform Into Any Character",
-    "subheadline": "AI-powered costume portraits in seconds. Upload your selfie, describe your dream costume, and watch the magic happen.",
+    "headline": "Try On Any Costume in 30 Seconds!",
+    "subheadline": "Share-ready seasonal shots in the time it takes to snap a good selfie. Upload your face, pick a fit, and summon your Halloween doppelganger!",
     "cta": "Create My Costume Portrait",
     "ctaSecondary": "See Examples",
     "noCreditCard": "No credit card required to start"
@@ -24,18 +24,18 @@
     "viewMore": "View More Examples"
   },
   "groupSelfieExamples": {
-    "title": "Spooky Group Selfies",
-    "subtitle": "Combine your costume portraits into haunting group scenes"
+    "title": "Invite your friends to the party",
+    "subtitle": "After you get your costume photos, combine them into a Group Selfie memory with the press of a button"
   },
   "howItWorks": {
     "title": "How It Works",
     "subtitle": "Create your perfect costume portrait in four simple steps",
     "step1": {
       "title": "Upload Your Selfie",
-      "description": "Take or upload a photo. Optional but recommended for personalized results."
+      "description": "Take or upload a photo of you or a friend (with their permission)."
     },
     "step2": {
-      "title": "Describe Your Costume",
+      "title": "Describe Or Choose Your Costume",
       "description": "Any character you can imagine - from vampires to superheroes to fantasy creatures."
     },
     "step3": {
@@ -52,7 +52,7 @@
     "subtitle": "Everything you need to know",
     "q1": {
       "question": "Do I need to upload a selfie?",
-      "answer": "No, but it helps create a portrait that looks like you. You can also generate without one for generic costume ideas."
+      "answer": "No, but it helps create a portrait that looks like you. You can also generate one with Jack or Jill, our mascots, if you prefer not to upload your own photo!"
     },
     "q2": {
       "question": "How much candy does it cost?",
@@ -76,11 +76,7 @@
     },
     "q7": {
       "question": "Is my photo data secure?",
-      "answer": "Yes! We use enterprise-grade security. Your photos are processed securely and stored with encryption."
-    },
-    "q8": {
-      "question": "Can I use these commercially?",
-      "answer": "Generated portraits are for personal use. Contact us for commercial licensing options."
+      "answer": "Yes! We provide enterprise-grade security via subscribe.dev. Your photos and payments are processed securely."
     }
   },
   "finalCta": {
@@ -133,7 +129,7 @@
   },
   "groupSelfie": {
     "title": "Group Selfie Generator",
-    "subtitle": "Combine two people into a fun group selfie scene. Upload your costume portraits or any photos!",
+    "subtitle": "Combine two people into a fun group selfie scene.",
     "costBadge": "Cost: 7 pieces of candy per generation",
     "inputTitle": "Input",
     "person1Label": "Person 1",

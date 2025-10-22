@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSubscribeDev } from '@subscribe.dev/react';
-import OutputCarouselSelector from '../components/output/OutputCarouselSelector';
+import OutputGridDualSelector from '../components/output/OutputGridDualSelector';
 import OutputsCarousel from '../components/output/OutputsCarousel';
+import ImageViewerModal from '../components/output/ImageViewerModal';
 import BottomNav from '../components/shared/BottomNav';
 import { useOutputHistory } from '../hooks/useOutputHistory';
 import type { CostumeOutput } from '../types';
@@ -14,8 +15,10 @@ const GroupSelfiePage: React.FC = () => {
   const [setting, setSetting] = useState('Halloween party');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [countdown, setCountdown] = useState(15);
   const [error, setError] = useState<string | null>(null);
   const [errorType, setErrorType] = useState<'insufficient_credits' | 'other' | null>(null);
+  const [viewerImageUrl, setViewerImageUrl] = useState<string | null>(null);
 
   const { client, subscribe } = useSubscribeDev();
   const { addOutput } = useOutputHistory();
@@ -43,6 +46,28 @@ const GroupSelfiePage: React.FC = () => {
     setSetting(randomSetting);
   };
 
+  // Countdown timer when loading
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (loading) {
+      setCountdown(15);
+      interval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) return 0;
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
+
+  // Auto-open image viewer when result is ready
+  useEffect(() => {
+    if (result && result.output?.group_selfie?.image) {
+      setViewerImageUrl(result.output.group_selfie.image);
+    }
+  }, [result]);
+
   const handleSubmit = async () => {
     if (!client) {
       setError('Client not initialized');
@@ -68,10 +93,9 @@ const GroupSelfiePage: React.FC = () => {
 
       // Save group selfie output to history
       if (response.output?.group_selfie?.image) {
-        const description = `Group selfie: ${setting}`;
         addOutput(
           response.output.group_selfie.image,
-          description,
+          setting,
           'group_selfie', // Output type
           undefined, // No single person ID for group selfie
           undefined,
@@ -81,7 +105,7 @@ const GroupSelfiePage: React.FC = () => {
     } catch (err: any) {
       console.error('Workflow error:', err);
 
-      if (err.type === 'insufficient_credits') {
+      if (err.code === 'insufficient_credits' || err.code === 'INSUFFICIENT_BALANCE') {
         setError('Out of candy! Replenish your goodie bag.');
         setErrorType('insufficient_credits');
       } else {
@@ -106,32 +130,21 @@ const GroupSelfiePage: React.FC = () => {
             <p className="text-neutral-300 mt-2">{t('groupSelfie.subtitle')}</p>
             <div className="mt-3 inline-block px-3 py-1 bg-orange-600/20 border border-orange-600/40 rounded">
               <span className="text-sm text-orange-300 font-medium">
-                {t('groupSelfie.costBadge')}
+                🍬 7 {t('user.candy')}
               </span>
             </div>
           </div>
 
           <div className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="max-w-2xl mx-auto">
               {/* Input Section */}
               <div>
-                <h2 className="font-display text-xl font-semibold mb-4 text-neutral-100">{t('groupSelfie.inputTitle')}</h2>
-
                 <div className="mb-6">
-                  <OutputCarouselSelector
-                    selectedOutput={output1}
-                    onSelect={setOutput1}
-                    label={t('groupSelfie.person1Label')}
-                    excludeOutputId={output2?.id}
-                  />
-                </div>
-
-                <div className="mb-6">
-                  <OutputCarouselSelector
-                    selectedOutput={output2}
-                    onSelect={setOutput2}
-                    label={t('groupSelfie.person2Label')}
-                    excludeOutputId={output1?.id}
+                  <OutputGridDualSelector
+                    selectedOutput1={output1}
+                    selectedOutput2={output2}
+                    onSelect1={setOutput1}
+                    onSelect2={setOutput2}
                   />
                 </div>
 
@@ -146,31 +159,6 @@ const GroupSelfiePage: React.FC = () => {
                       className="px-3 py-1 text-xs font-medium bg-purple-600 hover:bg-purple-500 text-neutral-100 rounded transition-colors"
                     >
                       🎲 Decide for me
-                    </button>
-                  </div>
-
-                  {/* Quick Setting Selections */}
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    <button
-                      type="button"
-                      onClick={() => setSetting('Haunted mansion hallway')}
-                      className="px-3 py-1.5 bg-neutral-700 hover:bg-purple-600 text-neutral-300 hover:text-neutral-100 rounded transition-colors text-sm font-medium border border-neutral-600 hover:border-purple-500"
-                    >
-                      👻 Haunted Mansion
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSetting('Spooky graveyard at midnight')}
-                      className="px-3 py-1.5 bg-neutral-700 hover:bg-purple-600 text-neutral-300 hover:text-neutral-100 rounded transition-colors text-sm font-medium border border-neutral-600 hover:border-purple-500"
-                    >
-                      🪦 Spooky Graveyard
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSetting('Halloween costume party with decorations')}
-                      className="px-3 py-1.5 bg-neutral-700 hover:bg-purple-600 text-neutral-300 hover:text-neutral-100 rounded transition-colors text-sm font-medium border border-neutral-600 hover:border-purple-500"
-                    >
-                      🎃 Halloween Party
                     </button>
                   </div>
 
@@ -235,81 +223,38 @@ const GroupSelfiePage: React.FC = () => {
                 {/* Previous Generations Carousel */}
                 <OutputsCarousel outputType="group_selfie" />
               </div>
-
-              {/* Results Section */}
-              <div>
-                <h2 className="font-display text-xl font-semibold mb-4 text-neutral-100">{t('groupSelfie.resultsTitle')}</h2>
-                <div className="min-h-[500px] bg-neutral-900 rounded p-6 border-2 border-neutral-700">
-                  {loading ? (
-                    <div className="flex flex-col items-center justify-center h-full gap-4">
-                      <div className="relative">
-                        <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-purple-600"></div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="animate-pulse text-2xl">👥</div>
-                        </div>
-                      </div>
-                      <p className="text-neutral-300 font-medium">{t('groupSelfie.processingMessage')}</p>
-                      <p className="text-sm text-neutral-500">{t('groupSelfie.processingSubtitle')}</p>
-                    </div>
-                  ) : result ? (
-                    <div className="space-y-4">
-                      {result.output?.group_selfie?.image && (
-                        <div className="space-y-3">
-                          <div className="relative group bg-neutral-900 rounded">
-                            <img
-                              src={result.output.group_selfie.image}
-                              alt="Generated group selfie"
-                              className="w-full rounded shadow-2xl object-contain"
-                            />
-                            <a
-                              href={result.output.group_selfie.image}
-                              download="group-selfie.jpg"
-                              className="absolute bottom-4 right-4 bg-neutral-900/90 hover:bg-neutral-900 text-neutral-100 px-4 py-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity font-medium flex items-center gap-2 border border-neutral-700"
-                            >
-                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                              </svg>
-                              {t('workflow.downloadButton')}
-                            </a>
-                          </div>
-
-                          <div className="bg-green-950/30 border-l-4 border-green-500 p-4 rounded">
-                            <div className="flex items-center gap-2">
-                              <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                              </svg>
-                              <p className="text-green-300 font-medium">{t('groupSelfie.successMessage')}</p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {result.errors && result.errors.length > 0 && (
-                        <div className="bg-yellow-950/30 border-l-4 border-yellow-500 p-4 rounded">
-                          <p className="text-yellow-300 font-medium">{t('workflow.warningsTitle')}:</p>
-                          <ul className="list-disc list-inside text-sm text-yellow-400 mt-1">
-                            {result.errors.map((err: any, idx: number) => (
-                              <li key={idx}>{err.message}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-neutral-500 gap-4">
-                      <svg className="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      <p className="text-lg font-medium">{t('groupSelfie.resultsEmpty')}</p>
-                      <p className="text-sm">{t('groupSelfie.resultsEmptySubtitle')}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Countdown Overlay */}
+      {loading && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-6">
+            <div className="relative">
+              <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-purple-600"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-5xl font-display font-bold text-purple-400">
+                  {countdown}
+                </div>
+              </div>
+            </div>
+            <div className="text-center">
+              <p className="text-neutral-100 font-medium text-xl">{t('groupSelfie.processingMessage')}</p>
+              <p className="text-neutral-400 mt-2">{t('groupSelfie.processingSubtitle')}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Viewer Modal */}
+      {viewerImageUrl && (
+        <ImageViewerModal
+          imageUrl={viewerImageUrl}
+          onClose={() => setViewerImageUrl(null)}
+        />
+      )}
 
       {/* Bottom Navigation - Mobile Only */}
       <BottomNav />

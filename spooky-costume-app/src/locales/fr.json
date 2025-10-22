@@ -12,8 +12,8 @@
     "costumes": "Costumes"
   },
   "hero": {
-    "headline": "Transformez-vous en N'importe Quel Personnage",
-    "subheadline": "Portraits de costumes propulsés par l'IA en quelques secondes. Téléchargez votre selfie, décrivez le costume de vos rêves et regardez la magie opérer.",
+    "headline": "Essayez N'importe Quel Costume en 30 Secondes!",
+    "subheadline": "Photos prêtes à partager dans le temps qu'il faut pour prendre un bon selfie. Téléchargez votre visage, choisissez une tenue et invoquez votre double d'Halloween!",
     "cta": "Créer Mon Portrait de Costume",
     "ctaSecondary": "Voir les Exemples",
     "noCreditCard": "Aucune carte de crédit requise pour commencer"
@@ -24,18 +24,18 @@
     "viewMore": "Voir Plus d'Exemples"
   },
   "groupSelfieExamples": {
-    "title": "Selfies de Groupe Effrayants",
-    "subtitle": "Combinez vos portraits de costumes en scènes de groupe hantées"
+    "title": "Invitez vos amis à la fête",
+    "subtitle": "Après avoir obtenu vos photos de costumes, combinez-les en un souvenir de Selfie de Groupe en appuyant sur un bouton"
   },
   "howItWorks": {
     "title": "Comment Ça Marche",
     "subtitle": "Créez votre portrait de costume parfait en quatre étapes simples",
     "step1": {
       "title": "Téléchargez Votre Selfie",
-      "description": "Prenez ou téléchargez une photo. Optionnel mais recommandé pour des résultats personnalisés."
+      "description": "Prenez ou téléchargez une photo de vous ou d'un ami (avec sa permission)."
     },
     "step2": {
-      "title": "Décrivez Votre Costume",
+      "title": "Décrivez Ou Choisissez Votre Costume",
       "description": "N'importe quel personnage que vous pouvez imaginer - des vampires aux super-héros en passant par les créatures fantastiques."
     },
     "step3": {
@@ -52,7 +52,7 @@
     "subtitle": "Tout ce que vous devez savoir",
     "q1": {
       "question": "Dois-je télécharger un selfie?",
-      "answer": "Non, mais cela aide à créer un portrait qui vous ressemble. Vous pouvez également générer sans pour des idées de costumes génériques."
+      "answer": "Non, mais cela aide à créer un portrait qui vous ressemble. Vous pouvez également en générer un avec Jack ou Jill, nos mascottes, si vous préférez ne pas télécharger votre propre photo!"
     },
     "q2": {
       "question": "Combien de bonbons cela coûte-t-il?",
@@ -76,11 +76,7 @@
     },
     "q7": {
       "question": "Mes données photo sont-elles sécurisées?",
-      "answer": "Oui! Nous utilisons une sécurité de niveau entreprise. Vos photos sont traitées en toute sécurité et stockées avec cryptage."
-    },
-    "q8": {
-      "question": "Puis-je les utiliser commercialement?",
-      "answer": "Les portraits générés sont pour un usage personnel. Contactez-nous pour des options de licence commerciale."
+      "answer": "Oui! Nous fournissons une sécurité de niveau entreprise via subscribe.dev. Vos photos et paiements sont traités en toute sécurité."
     }
   },
   "finalCta": {
@@ -133,7 +129,7 @@
   },
   "groupSelfie": {
     "title": "Générateur de Selfie de Groupe",
-    "subtitle": "Combinez deux personnes dans une scène de selfie de groupe amusante. Téléchargez vos portraits de costumes ou n'importe quelle photo!",
+    "subtitle": "Combinez deux personnes dans une scène de selfie de groupe amusante.",
     "costBadge": "Coût: 7 bonbons par génération",
     "inputTitle": "Entrée",
     "person1Label": "Personne 1",

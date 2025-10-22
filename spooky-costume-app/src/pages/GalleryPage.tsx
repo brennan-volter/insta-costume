@@ -101,7 +101,7 @@ const GalleryPage: React.FC = () => {
                       alt={output.costumeDescription}
                       className="w-full aspect-square object-contain"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-black/0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <div className="absolute bottom-0 left-0 right-0 p-3">
                         <p className="text-neutral-100 text-sm font-medium line-clamp-2 mb-1">
                           {output.costumeDescription}

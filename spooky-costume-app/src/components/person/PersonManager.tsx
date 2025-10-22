@@ -9,7 +9,7 @@ interface PersonManagerProps {
 
 const PersonManager: React.FC<PersonManagerProps> = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
-  const { persons, addPerson, deletePerson, syncStatus } = usePersons();
+  const { persons, addPerson, deletePerson } = usePersons();
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newPersonName, setNewPersonName] = useState('');
@@ -60,29 +60,14 @@ const PersonManager: React.FC<PersonManagerProps> = ({ isOpen, onClose }) => {
               {t('people.managerSubtitle')}
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            {syncStatus && (
-              <span className={`text-xs px-2 py-1 rounded ${
-                syncStatus === 'synced' ? 'bg-green-900/30 text-green-400' :
-                syncStatus === 'syncing' ? 'bg-yellow-900/30 text-yellow-400' :
-                syncStatus === 'error' ? 'bg-red-900/30 text-red-400' :
-                'bg-neutral-700 text-neutral-400'
-              }`}>
-                {syncStatus === 'synced' && '✓ Synced'}
-                {syncStatus === 'syncing' && '⟳ Syncing...'}
-                {syncStatus === 'error' && '✗ Error'}
-                {syncStatus === 'local' && 'Local'}
-              </span>
-            )}
-            <button
-              onClick={onClose}
-              className="text-neutral-400 hover:text-neutral-200 transition-colors"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="text-neutral-400 hover:text-neutral-200 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
         {/* Content */}
@@ -172,58 +157,74 @@ const PersonManager: React.FC<PersonManagerProps> = ({ isOpen, onClose }) => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {persons.map((person) => (
-                <div
-                  key={person.id}
-                  className="bg-neutral-900 border border-neutral-700 rounded p-4 hover:border-purple-600 transition-all"
-                >
-                  <div className="flex gap-4">
-                    <img
-                      src={person.photoBase64}
-                      alt={person.name}
-                      className="w-20 h-20 rounded object-cover border-2 border-neutral-700"
-                    />
-                    <div className="flex-1">
-                      <h4 className="font-display font-semibold text-neutral-100 text-lg">
-                        {person.name}
-                      </h4>
-                      <p className="text-xs text-neutral-500 mt-1">
-                        {t('people.usedCount', { count: person.usageCount })}
-                      </p>
-                      <p className="text-xs text-neutral-500">
-                        {t('people.createdDate', { date: new Date(person.createdAt).toLocaleDateString() })}
-                      </p>
-                    </div>
-                    <div>
-                      {deleteConfirmId === person.id ? (
-                        <div className="flex flex-col gap-2">
-                          <button
-                            onClick={() => handleDelete(person.id)}
-                            className="px-3 py-1 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700"
-                          >
-                            {t('people.confirmDelete')}
-                          </button>
-                          <button
-                            onClick={() => setDeleteConfirmId(null)}
-                            className="px-3 py-1 bg-neutral-700 text-neutral-300 rounded text-xs font-medium hover:bg-neutral-600"
-                          >
-                            {t('people.cancelButton')}
-                          </button>
+              {persons.map((person) => {
+                const isBuiltIn = person.id.startsWith('builtin_');
+                return (
+                  <div
+                    key={person.id}
+                    className="bg-neutral-900 border border-neutral-700 rounded p-4 hover:border-purple-600 transition-all"
+                  >
+                    <div className="flex gap-4">
+                      <img
+                        src={person.photoBase64}
+                        alt={person.name}
+                        className="w-20 h-20 rounded object-cover border-2 border-neutral-700"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-display font-semibold text-neutral-100 text-lg">
+                            {person.name}
+                          </h4>
+                          {isBuiltIn && (
+                            <span className="text-xs px-2 py-0.5 bg-orange-600/20 border border-orange-600/40 rounded text-orange-300">
+                              Mascot
+                            </span>
+                          )}
                         </div>
-                      ) : (
-                        <button
-                          onClick={() => setDeleteConfirmId(person.id)}
-                          className="text-red-400 hover:text-red-300 transition-colors p-2"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
+                        {!isBuiltIn && (
+                          <>
+                            <p className="text-xs text-neutral-500 mt-1">
+                              {t('people.usedCount', { count: person.usageCount })}
+                            </p>
+                            <p className="text-xs text-neutral-500">
+                              {t('people.createdDate', { date: new Date(person.createdAt).toLocaleDateString() })}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                      {!isBuiltIn && (
+                        <div>
+                          {deleteConfirmId === person.id ? (
+                            <div className="flex flex-col gap-2">
+                              <button
+                                onClick={() => handleDelete(person.id)}
+                                className="px-3 py-1 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700"
+                              >
+                                {t('people.confirmDelete')}
+                              </button>
+                              <button
+                                onClick={() => setDeleteConfirmId(null)}
+                                className="px-3 py-1 bg-neutral-700 text-neutral-300 rounded text-xs font-medium hover:bg-neutral-600"
+                              >
+                                {t('people.cancelButton')}
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setDeleteConfirmId(person.id)}
+                              className="text-red-400 hover:text-red-300 transition-colors p-2"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

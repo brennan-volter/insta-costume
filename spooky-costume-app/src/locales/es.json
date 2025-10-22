@@ -12,8 +12,8 @@
     "costumes": "Disfraces"
   },
   "hero": {
-    "headline": "Transfórmate en Cualquier Personaje",
-    "subheadline": "Retratos de disfraces con IA en segundos. Sube tu selfie, describe tu disfraz soñado y observa la magia.",
+    "headline": "¡Pruébate Cualquier Disfraz en 30 Segundos!",
+    "subheadline": "Fotos listas para compartir en el tiempo que tardas en tomar una buena selfie. ¡Sube tu rostro, elige un disfraz y convoca a tu doble de Halloween!",
     "cta": "Crear Mi Retrato de Disfraz",
     "ctaSecondary": "Ver Ejemplos",
     "noCreditCard": "No se requiere tarjeta de crédito para comenzar"
@@ -24,18 +24,18 @@
     "viewMore": "Ver Más Ejemplos"
   },
   "groupSelfieExamples": {
-    "title": "Selfies Grupales Espeluznantes",
-    "subtitle": "Combina tus retratos de disfraces en escenas grupales embrujadas"
+    "title": "Invita a tus amigos a la fiesta",
+    "subtitle": "Después de obtener tus fotos de disfraces, combínalas en un recuerdo de Selfie Grupal con solo presionar un botón"
   },
   "howItWorks": {
     "title": "Cómo Funciona",
     "subtitle": "Crea tu retrato de disfraz perfecto en cuatro simples pasos",
     "step1": {
       "title": "Sube Tu Selfie",
-      "description": "Toma o sube una foto. Opcional pero recomendado para resultados personalizados."
+      "description": "Toma o sube una foto tuya o de un amigo (con su permiso)."
     },
     "step2": {
-      "title": "Describe Tu Disfraz",
+      "title": "Describe O Elige Tu Disfraz",
       "description": "Cualquier personaje que puedas imaginar - desde vampiros hasta superhéroes y criaturas fantásticas."
     },
     "step3": {
@@ -52,7 +52,7 @@
     "subtitle": "Todo lo que necesitas saber",
     "q1": {
       "question": "¿Necesito subir una selfie?",
-      "answer": "No, pero ayuda a crear un retrato que se parezca a ti. También puedes generar sin una para ideas genéricas de disfraces."
+      "answer": "No, pero ayuda a crear un retrato que se parezca a ti. ¡También puedes generar uno con Jack o Jill, nuestras mascotas, si prefieres no subir tu propia foto!"
     },
     "q2": {
       "question": "¿Cuántos dulces cuesta?",
@@ -76,11 +76,7 @@
     },
     "q7": {
       "question": "¿Mis datos fotográficos están seguros?",
-      "answer": "¡Sí! Usamos seguridad de nivel empresarial. Tus fotos se procesan de forma segura y se almacenan con encriptación."
-    },
-    "q8": {
-      "question": "¿Puedo usar estos comercialmente?",
-      "answer": "Los retratos generados son para uso personal. Contáctanos para opciones de licencia comercial."
+      "answer": "¡Sí! Proporcionamos seguridad de nivel empresarial a través de subscribe.dev. Tus fotos y pagos se procesan de forma segura."
     }
   },
   "finalCta": {
@@ -133,7 +129,7 @@
   },
   "groupSelfie": {
     "title": "Generador de Selfie Grupal",
-    "subtitle": "¡Combina dos personas en una divertida escena de selfie grupal. Sube tus retratos de disfraces o cualquier foto!",
+    "subtitle": "Combina dos personas en una divertida escena de selfie grupal.",
     "costBadge": "Costo: 7 dulces por generación",
     "inputTitle": "Entrada",
     "person1Label": "Persona 1",

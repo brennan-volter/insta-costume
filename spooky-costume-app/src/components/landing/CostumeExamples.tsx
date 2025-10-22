@@ -1,44 +1,57 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-const wowee = '/images/wowee.jpeg';
-const jackAndJill = '/images/jack-and-jill.jpeg';
+import { useSubscribeDev } from '@subscribe.dev/react';
+import { useNavigate } from 'react-router-dom';
 
-const GroupSelfieExamples: React.FC = () => {
+const CostumeExamples: React.FC = () => {
   const { t } = useTranslation();
+  const { isSignedIn, signIn } = useSubscribeDev();
+  const navigate = useNavigate();
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   const examples = [
     {
       id: 1,
-      url: wowee,
-      alt: 'Example group selfie 1',
+      url: 'https://images.subscribe.dev/uploads/e10d06b1-2614-4d44-8926-b6b220a7957e/system/1761079141588-tmpssopnx2m.jpeg',
+      alt: 'Example costume portrait 1',
+      costume: 'Vampire',
     },
     {
       id: 2,
-      url: jackAndJill,
-      alt: 'Example group selfie 2',
+      url: 'https://images.subscribe.dev/uploads/e10d06b1-2614-4d44-8926-b6b220a7957e/system/1761079098812-tmpo5uoqp21.jpeg',
+      alt: 'Example costume portrait 2',
+      costume: 'Super hero',
     },
     {
       id: 3,
-      url: 'https://images.subscribe.dev/uploads/322a5318-4ab4-42ee-816c-a3a06ee0304d/system/1761089273294-tmpf090t_f_.jpeg',
-      alt: 'Example group selfie 3',
+      url: 'https://images.subscribe.dev/uploads/e10d06b1-2614-4d44-8926-b6b220a7957e/system/1761079241787-tmplmkuuwpq.jpeg',
+      alt: 'Example costume portrait 3',
+      costume: 'Wizard',
     },
   ];
+
+  const handleCostumeClick = (costume: string) => {
+    if (isSignedIn) {
+      navigate('/app', { state: { costume } });
+    } else {
+      signIn();
+    }
+  };
 
   const handleImageLoad = (id: number) => {
     setLoadedImages((prev) => new Set(prev).add(id));
   };
 
   return (
-    <section id="group-selfie-examples" className="relative py-16 sm:py-24 bg-neutral-950">
+    <section className="relative py-16 sm:py-24 bg-neutral-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="font-display font-bold text-4xl sm:text-5xl mb-4">
-            {t('groupSelfieExamples.title')}
+            {t('examples.title')}
           </h2>
           <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
-            {t('groupSelfieExamples.subtitle')}
+            {t('examples.subtitle')}
           </p>
         </div>
 
@@ -66,18 +79,29 @@ const GroupSelfieExamples: React.FC = () => {
               {!loadedImages.has(example.id) && (
                 <div className="absolute inset-0 bg-neutral-800 animate-pulse" />
               )}
-              <div className="aspect-[16/9] w-full">
+              <div className="aspect-[3/4] w-full">
                 <img
                   src={example.url}
                   alt={example.alt}
                   loading="lazy"
                   onLoad={() => handleImageLoad(example.id)}
-                  className={`w-full h-full object-contain transition-opacity duration-500 ${
+                  className={`w-full h-full object-cover transition-opacity duration-500 ${
                     loadedImages.has(example.id) ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-neutral-950/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
+                <button
+                  onClick={() => handleCostumeClick(example.costume)}
+                  className="px-4 py-2 rounded font-medium text-sm transition-all hover:scale-105"
+                  style={{
+                    background: 'var(--gradient-primary)',
+                    color: 'white',
+                  }}
+                >
+                  Try on a {example.costume} costume!
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -88,7 +112,7 @@ const GroupSelfieExamples: React.FC = () => {
             {examples.map((example, index) => (
               <div
                 key={example.id}
-                className="flex-shrink-0 w-[85%] sm:w-[70%] snap-center"
+                className="flex-shrink-0 w-[70%] sm:w-[45%] snap-center"
               >
                 <div
                   className="relative rounded-md overflow-hidden bg-neutral-800 border border-neutral-700"
@@ -101,18 +125,29 @@ const GroupSelfieExamples: React.FC = () => {
                   {!loadedImages.has(example.id) && (
                     <div className="absolute inset-0 bg-neutral-800 animate-pulse" />
                   )}
-                  <div className="aspect-[16/9] w-full">
+                  <div className="aspect-[3/4] w-full">
                     <img
                       src={example.url}
                       alt={example.alt}
                       loading="lazy"
                       onLoad={() => handleImageLoad(example.id)}
-                      className={`w-full h-full object-contain transition-opacity duration-500 ${
+                      className={`w-full h-full object-cover transition-opacity duration-500 ${
                         loadedImages.has(example.id) ? 'opacity-100' : 'opacity-0'
                       }`}
                     />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/30 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/30 to-transparent flex items-end justify-center p-3">
+                    <button
+                      onClick={() => handleCostumeClick(example.costume)}
+                      className="px-3 py-2 rounded font-medium text-xs transition-all"
+                      style={{
+                        background: 'var(--gradient-primary)',
+                        color: 'white',
+                      }}
+                    >
+                      Try on a {example.costume} costume!
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -159,4 +194,4 @@ const GroupSelfieExamples: React.FC = () => {
   );
 };
 
-export default GroupSelfieExamples;
+export default CostumeExamples;

@@ -17,8 +17,6 @@ const PersonSelector: React.FC<PersonSelectorProps> = ({
   const { t } = useTranslation();
   const { persons } = usePersons();
 
-  const selectedPerson = persons.find((p) => p.id === selectedPersonId);
-
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
@@ -33,78 +31,47 @@ const PersonSelector: React.FC<PersonSelectorProps> = ({
         </button>
       </div>
 
-      {persons.length === 0 ? (
-        <div className="bg-neutral-900 border-2 border-dashed border-neutral-700 rounded p-6 text-center">
-          <svg className="w-12 h-12 mx-auto mb-3 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-          <p className="text-neutral-400 text-sm mb-3">{t('people.noPeopleYet')}</p>
-          <button
-            onClick={onManageClick}
-            className="text-sm px-4 py-2 rounded font-medium transition-all"
-            style={{ background: 'var(--gradient-primary)', color: 'white' }}
-          >
-            {t('people.addFirstPerson')}
-          </button>
-        </div>
-      ) : (
-        <div>
-          {/* Selected Person Display */}
-          {selectedPerson ? (
-            <div className="bg-neutral-900 border-2 border-purple-600 rounded p-4 mb-3">
-              <div className="flex items-center gap-4">
-                <img
-                  src={selectedPerson.photoBase64}
-                  alt={selectedPerson.name}
-                  className="w-16 h-16 rounded object-cover"
-                />
-                <div className="flex-1">
-                  <h4 className="font-display font-semibold text-neutral-100">
-                    {selectedPerson.name}
-                  </h4>
-                  <p className="text-xs text-neutral-500">
-                    {t('people.usedCount', { count: selectedPerson.usageCount })}
-                  </p>
-                </div>
-                <button
-                  onClick={() => onSelect(null)}
-                  className="text-neutral-400 hover:text-red-400 transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="bg-neutral-900 border-2 border-dashed border-neutral-700 rounded p-4 text-center mb-3">
-              <p className="text-neutral-500 text-sm">{t('people.noPersonSelected')}</p>
-            </div>
-          )}
+      {/* Person Carousel */}
+      <div className="flex gap-3 overflow-x-auto pb-2 px-1" style={{ scrollbarWidth: 'thin' }}>
+        {persons.map((person) => {
+          const isSelected = person.id === selectedPersonId;
+          return (
+            <button
+              key={person.id}
+              onClick={() => onSelect(isSelected ? null : person)}
+              className={`flex-shrink-0 w-24 bg-neutral-900 rounded p-2 transition-all group ${
+                isSelected
+                  ? 'border-2 border-purple-600'
+                  : 'border-2 border-neutral-700 hover:border-purple-600'
+              }`}
+            >
+              <img
+                src={person.photoBase64}
+                alt={person.name}
+                className="w-full aspect-square object-cover rounded mb-2"
+              />
+              <p className="text-xs font-medium text-neutral-300 group-hover:text-purple-300 truncate">
+                {person.name}
+              </p>
+            </button>
+          );
+        })}
 
-          {/* Person Grid */}
-          {!selectedPerson && (
-            <div className="grid grid-cols-3 gap-3 max-h-64 overflow-y-auto p-1">
-              {persons.map((person) => (
-                <button
-                  key={person.id}
-                  onClick={() => onSelect(person)}
-                  className="bg-neutral-900 border-2 border-neutral-700 hover:border-purple-600 rounded p-3 transition-all group"
-                >
-                  <img
-                    src={person.photoBase64}
-                    alt={person.name}
-                    className="w-full aspect-square object-cover rounded mb-2"
-                  />
-                  <p className="text-xs font-medium text-neutral-300 group-hover:text-purple-300 truncate">
-                    {person.name}
-                  </p>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+        {/* Add New Person Card */}
+        <button
+          onClick={onManageClick}
+          className="flex-shrink-0 w-24 bg-neutral-900 border-2 border-dashed border-neutral-700 hover:border-purple-600 rounded p-2 transition-all flex flex-col items-center justify-center gap-2"
+        >
+          <div className="w-full aspect-square flex items-center justify-center">
+            <svg className="w-8 h-8 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <p className="text-xs font-medium text-neutral-500 text-center">
+            Add New
+          </p>
+        </button>
+      </div>
     </div>
   );
 };

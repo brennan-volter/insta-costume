@@ -1,7 +1,11 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useSubscribeDev } from '@subscribe.dev/react';
 import type { Person, CostumeOutput } from '../types';
+const jackImage = '/images/jack.jpeg';
+const jillImage = '/images/jill.jpeg';
+const jackCostumeImage = '/images/jack-costume.jpeg';
+const jillCostumeImage = '/images/jill-costume.jpeg';
 
 interface PersonsContextType {
   persons: Person[];
@@ -15,6 +19,7 @@ interface PersonsContextType {
 
 interface OutputsContextType {
   outputs: CostumeOutput[];
+  outputsForSelection: CostumeOutput[];
   syncStatus: string;
   addOutput: (
     imageUrl: string,
@@ -33,10 +38,57 @@ interface OutputsContextType {
 const PersonsContext = createContext<PersonsContextType | undefined>(undefined);
 const OutputsContext = createContext<OutputsContextType | undefined>(undefined);
 
+// Built-in mascot persons
+const BUILT_IN_PERSONS: Person[] = [
+  {
+    id: 'builtin_jack',
+    name: 'Jack',
+    photoBase64: jackImage,
+    createdAt: 0,
+    usageCount: 0,
+  },
+  {
+    id: 'builtin_jill',
+    name: 'Jill',
+    photoBase64: jillImage,
+    createdAt: 0,
+    usageCount: 0,
+  },
+];
+
+// Built-in costume outputs for selection (not shown in gallery/history)
+const BUILT_IN_OUTPUTS: CostumeOutput[] = [
+  {
+    id: 'builtin_output_jack',
+    imageUrl: jackCostumeImage,
+    costumeDescription: 'Jack Mascot Costume',
+    outputType: 'costume',
+    personId: 'builtin_jack',
+    personName: 'Jack',
+    createdAt: 0,
+    credits: 0,
+  },
+  {
+    id: 'builtin_output_jill',
+    imageUrl: jillCostumeImage,
+    costumeDescription: 'Jill Mascot Costume',
+    outputType: 'costume',
+    personId: 'builtin_jill',
+    personName: 'Jill',
+    createdAt: 0,
+    credits: 0,
+  },
+];
+
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { useStorage } = useSubscribeDev();
   const [persons, setPersons, personsSyncStatus] = useStorage<Person[]>('persons', []);
   const [outputs, setOutputs, outputsSyncStatus] = useStorage<CostumeOutput[]>('costume_outputs', []);
+
+  // Combine built-in persons with user-created persons
+  const allPersons = useMemo(() => {
+    return [...BUILT_IN_PERSONS, ...(persons || [])];
+  }, [persons]);
 
   // Migration: Add outputType to existing outputs that don't have it
   useEffect(() => {
@@ -93,11 +145,15 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const deletePerson = (id: string) => {
+    // Prevent deleting built-in persons
+    if (id.startsWith('builtin_')) return;
     if (!persons) return;
     setPersons(persons.filter((person) => person.id !== id));
   };
 
   const incrementUsage = (id: string) => {
+    // Don't track usage for built-in persons
+    if (id.startsWith('builtin_')) return;
     if (!persons) return;
     setPersons(
       persons.map((person) =>
@@ -107,7 +163,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const getPersonById = (id: string): Person | undefined => {
-    return persons?.find((person) => person.id === id);
+    return allPersons?.find((person) => person.id === id);
   };
 
   // Outputs functions
@@ -155,8 +211,13 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     ? [...outputs].sort((a, b) => b.createdAt - a.createdAt)
     : [];
 
+  // Combine built-in outputs with user outputs for selection purposes
+  const outputsForSelection = outputs
+    ? [...BUILT_IN_OUTPUTS, ...outputs].sort((a, b) => b.createdAt - a.createdAt)
+    : BUILT_IN_OUTPUTS;
+
   const personsValue: PersonsContextType = {
-    persons: persons || [],
+    persons: allPersons || [],
     syncStatus: personsSyncStatus,
     addPerson,
     updatePerson,
@@ -167,6 +228,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const outputsValue: OutputsContextType = {
     outputs: sortedOutputs,
+    outputsForSelection: outputsForSelection,
     syncStatus: outputsSyncStatus,
     addOutput,
     deleteOutput,
