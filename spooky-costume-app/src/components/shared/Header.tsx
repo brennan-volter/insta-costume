@@ -62,6 +62,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link
             to="/"
+            state={{ fromHeader: true }}
             className="flex items-center gap-2 font-display font-bold text-neutral-100 hover:text-orange-300 transition-colors flex-shrink-0"
           >
             <img src={instaCostumeLogo} alt="Insta Costume" className="w-6 h-6 sm:w-8 sm:h-8" />

@@ -58,7 +58,7 @@ const AddPersonForm: React.FC<AddPersonFormProps> = ({ isOpen, onClose }) => {
               {t('people.addPersonTitle')}
             </h2>
             <p className="text-sm text-neutral-400 mt-1">
-              Upload a photo and add a name
+              Upload a selfie and add a name
             </p>
           </div>
           <button

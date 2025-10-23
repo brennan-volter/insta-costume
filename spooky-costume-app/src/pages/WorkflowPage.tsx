@@ -15,8 +15,9 @@ import { imageUrlToBase64 } from '../utils/imageConverter';
 const WorkflowPage: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const [step, setStep] = useState(1); // Mobile step navigation (1 or 2)
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
-  const [costume, setCostume] = useState((location.state as any)?.costume || 'Scarecrow costume with burlap mask, straw poking through tattered patchwork clothes, and worn flannel shirt');
+  const [costume, setCostume] = useState((location.state as any)?.costume || 'Zombie doctor');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(15);
@@ -24,6 +25,7 @@ const WorkflowPage: React.FC = () => {
   const [errorType, setErrorType] = useState<'insufficient_credits' | 'other' | null>(null);
   const [showAddPersonForm, setShowAddPersonForm] = useState(false);
   const [viewerImageUrl, setViewerImageUrl] = useState<string | null>(null);
+  const [showExampleBounce, setShowExampleBounce] = useState(false);
 
   const { client, subscribe } = useSubscribeDev();
   const { incrementUsage } = usePersons();
@@ -73,6 +75,15 @@ const WorkflowPage: React.FC = () => {
       setViewerImageUrl(result.output.portrait.image);
     }
   }, [result]);
+
+  // Trigger shake animation when entering step 1
+  useEffect(() => {
+    if (step === 1) {
+      setShowExampleBounce(true);
+      const timer = setTimeout(() => setShowExampleBounce(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   const handleSubmit = async () => {
     if (!client) {
@@ -183,6 +194,23 @@ const WorkflowPage: React.FC = () => {
                   <p className="text-xs text-neutral-400 mt-1">
                     {t('workflow.costumeHint')}
                   </p>
+
+                  {/* Example Output */}
+                  <div className="mt-3">
+                    <p className="text-xs text-neutral-400 mb-2 text-center md:text-left">Example Output:</p>
+                    <div className="flex justify-center md:justify-start">
+                      <button
+                        onClick={() => setViewerImageUrl('/images/jack-costume.jpeg')}
+                        className="relative rounded-md overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all w-24 h-24"
+                      >
+                        <img
+                          src="/images/jack-costume.jpeg"
+                          alt="Example costume output"
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <button
@@ -243,90 +271,139 @@ const WorkflowPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile: Fixed height container */}
+          {/* Mobile: Two-step flow */}
           <div className="md:hidden">
-            <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
-            <div className="flex-1 overflow-y-auto">
-              <div className="mb-4">
-                <PersonSelector
-                  selectedPersonId={selectedPerson?.id || null}
-                  onSelect={setSelectedPerson}
-                  onAddClick={() => setShowAddPersonForm(true)}
-                />
-              </div>
+            {/* Step 1: Person Selection */}
+            {step === 1 && (
+              <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
+                <div className="flex-1 flex flex-col overflow-hidden">
+                  <h2 className="text-sm font-medium text-purple-300 mb-3">Step 1 of 2: Choose a Person</h2>
+                  <div className="flex-shrink-0">
+                    <PersonSelector
+                      selectedPersonId={selectedPerson?.id || null}
+                      onSelect={setSelectedPerson}
+                      onAddClick={() => setShowAddPersonForm(true)}
+                    />
+                  </div>
 
-              <div className="mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-medium text-neutral-200">
-                    {t('workflow.costumeLabel')} <span className="text-red-500">*</span>
-                  </label>
-                  <button
-                    type="button"
-                    onClick={handleRandomCostume}
-                    className="px-2 py-1 text-xs font-medium bg-purple-600 hover:bg-purple-500 text-neutral-100 rounded transition-colors whitespace-nowrap"
-                  >
-                    🎲 Random
-                  </button>
-                </div>
-                <textarea
-                  value={costume}
-                  onChange={(e) => setCostume(e.target.value)}
-                  placeholder={t('workflow.costumePlaceholder')}
-                  className="w-full p-3 bg-neutral-700 border-2 border-neutral-600 text-neutral-200 placeholder-neutral-500 rounded focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
-                  rows={3}
-                />
-                <p className="text-xs text-neutral-400 mt-1">
-                  {t('workflow.costumeHint')}
-                </p>
-              </div>
-
-              {error && errorType === 'insufficient_credits' && (
-                <div className="mb-4 p-3 bg-orange-950/50 border-l-4 border-orange-500 text-orange-300 rounded">
-                  <div className="flex items-start gap-2">
-                    <span className="text-xl flex-shrink-0">🍬</span>
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{error}</p>
-                      <button
-                        onClick={() => subscribe()}
-                        className="mt-2 px-3 py-1 rounded font-display font-semibold text-xs text-neutral-100 transition-all"
-                        style={{
-                          background: 'var(--gradient-primary)',
-                        }}
-                      >
-                        Get More Candy
-                      </button>
+                  {/* Example Output - Centered in remaining space */}
+                  <div className="flex-1 flex flex-col items-center justify-center overflow-y-auto">
+                    <div>
+                      <p className="text-xs text-neutral-400 mb-2 text-center">Example Output:</p>
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() => setViewerImageUrl('/images/jack-costume.jpeg')}
+                          className={`relative rounded-md overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all w-24 h-24 ${showExampleBounce ? 'animate-shake' : ''}`}
+                        >
+                          <img
+                            src="/images/jack-costume.jpeg"
+                            alt="Example costume output"
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              )}
 
-              {error && errorType === 'other' && (
-                <div className="mb-4 p-3 bg-red-950/50 border-l-4 border-red-500 text-red-300 rounded">
-                  <p className="font-medium text-sm">{error}</p>
+                <button
+                  onClick={() => setStep(2)}
+                  disabled={!selectedPerson}
+                  className="mt-4 w-full py-3 px-6 rounded font-display font-bold text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  style={{
+                    background: !selectedPerson ? '#52525b' : 'var(--gradient-primary)',
+                    boxShadow: !selectedPerson ? 'none' : 'var(--shadow-glow-purple)',
+                  }}
+                >
+                  {!selectedPerson ? 'Select a person' : 'Next: Pick a Costume →'}
+                </button>
+              </div>
+            )}
+
+            {/* Step 2: Costume Description & Generate */}
+            {step === 2 && (
+              <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
+                <div className="flex-1 overflow-y-auto">
+                  <h2 className="text-sm font-medium text-purple-300 mb-3">Step 2 of 2: Pick a Costume</h2>
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="block text-sm font-medium text-neutral-200">
+                        {t('workflow.costumeLabel')} <span className="text-red-500">*</span>
+                      </label>
+                      <button
+                        type="button"
+                        onClick={handleRandomCostume}
+                        className="px-2 py-1 text-xs font-medium bg-purple-600 hover:bg-purple-500 text-neutral-100 rounded transition-colors"
+                      >
+                        🎲 Random
+                      </button>
+                    </div>
+                    <textarea
+                      value={costume}
+                      onChange={(e) => setCostume(e.target.value)}
+                      placeholder={t('workflow.costumePlaceholder')}
+                      className="w-full p-3 bg-neutral-700 border-2 border-neutral-600 text-neutral-200 placeholder-neutral-500 rounded focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                      rows={3}
+                    />
+                    <p className="text-xs text-neutral-400 mt-1">
+                      {t('workflow.costumeHint')}
+                    </p>
+                  </div>
+
+                  {error && errorType === 'insufficient_credits' && (
+                    <div className="mb-4 p-3 bg-orange-950/50 border-l-4 border-orange-500 text-orange-300 rounded">
+                      <div className="flex items-start gap-2">
+                        <span className="text-xl flex-shrink-0">🍬</span>
+                        <div className="flex-1">
+                          <p className="font-medium text-sm">{error}</p>
+                          <button
+                            onClick={() => subscribe()}
+                            className="mt-2 px-3 py-1 rounded font-display font-semibold text-xs text-neutral-100 transition-all"
+                            style={{
+                              background: 'var(--gradient-primary)',
+                            }}
+                          >
+                            Get More Candy
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {error && errorType === 'other' && (
+                    <div className="mb-4 p-3 bg-red-950/50 border-l-4 border-red-500 text-red-300 rounded">
+                      <p className="font-medium text-sm">{error}</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
 
-            <button
-              onClick={handleSubmit}
-              disabled={loading || !costume.trim() || !selectedPerson}
-              className="mt-4 w-full py-3 px-6 rounded font-display font-bold text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-              style={{
-                background: loading || !costume.trim() || !selectedPerson ? '#52525b' : 'var(--gradient-primary)',
-                boxShadow: loading || !costume.trim() || !selectedPerson ? 'none' : 'var(--shadow-glow-purple)',
-              }}
-            >
-              {loading
-                ? 'Summoning...'
-                : !selectedPerson
-                  ? 'Select a person above'
-                  : !costume.trim()
-                    ? 'Enter a costume description'
-                    : t('workflow.generateButton')
-              }
-            </button>
+                <div className="space-y-2 mt-4">
+                  <button
+                    onClick={handleSubmit}
+                    disabled={loading || !costume.trim() || !selectedPerson}
+                    className="w-full py-3 px-6 rounded font-display font-bold text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    style={{
+                      background: loading || !costume.trim() || !selectedPerson ? '#52525b' : 'var(--gradient-primary)',
+                      boxShadow: loading || !costume.trim() || !selectedPerson ? 'none' : 'var(--shadow-glow-purple)',
+                    }}
+                  >
+                    {loading
+                      ? 'Summoning...'
+                      : !costume.trim()
+                        ? 'Enter a costume description'
+                        : t('workflow.generateButton')
+                    }
+                  </button>
+                  <button
+                    onClick={() => setStep(1)}
+                    className="w-full py-2 px-6 rounded font-display font-medium text-neutral-300 bg-neutral-700 hover:bg-neutral-600 transition-all"
+                  >
+                    ← Back to Person Selection
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
       </div>
       </div>
 
@@ -366,6 +443,18 @@ const WorkflowPage: React.FC = () => {
 
       {/* Bottom Navigation - Mobile Only */}
       <BottomNav />
+
+      {/* Shake Animation */}
+      <style>{`
+        @keyframes shake {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(-5deg); }
+          75% { transform: rotate(5deg); }
+        }
+        .animate-shake {
+          animation: shake 0.5s ease-in-out 2;
+        }
+      `}</style>
     </div>
   );
 };

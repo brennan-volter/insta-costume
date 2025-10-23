@@ -21,6 +21,7 @@ const GroupSelfiePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [errorType, setErrorType] = useState<'insufficient_credits' | 'other' | null>(null);
   const [viewerImageUrl, setViewerImageUrl] = useState<string | null>(null);
+  const [showExampleBounce, setShowExampleBounce] = useState(false);
 
   const { client, subscribe } = useSubscribeDev();
   const { addOutput } = useOutputHistory();
@@ -69,6 +70,15 @@ const GroupSelfiePage: React.FC = () => {
       setViewerImageUrl(result.output.group_selfie.image);
     }
   }, [result]);
+
+  // Trigger shake animation when entering step 1
+  useEffect(() => {
+    if (step === 1) {
+      setShowExampleBounce(true);
+      const timer = setTimeout(() => setShowExampleBounce(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   const handleSubmit = async () => {
     if (!client) {
@@ -177,6 +187,23 @@ const GroupSelfiePage: React.FC = () => {
                   <p className="text-xs text-neutral-400 mt-1">
                     {t('groupSelfie.settingHint')}
                   </p>
+
+                  {/* Example Output */}
+                  <div className="mt-3">
+                    <p className="text-xs text-neutral-400 mb-2 text-center md:text-left">Example Output:</p>
+                    <div className="flex justify-center md:justify-start">
+                      <button
+                        onClick={() => setViewerImageUrl('/images/jack-and-jill.jpeg')}
+                        className="relative rounded-md overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all w-24 h-24"
+                      >
+                        <img
+                          src="/images/jack-and-jill.jpeg"
+                          alt="Example group selfie output"
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <button
@@ -242,15 +269,37 @@ const GroupSelfiePage: React.FC = () => {
             {/* Step 1: Portrait Selection */}
             {step === 1 && (
               <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 flex flex-col overflow-hidden">
                   <h2 className="text-sm font-medium text-purple-300 mb-3">Step 1 of 2: Choose 2 Portraits</h2>
-                  <OutputGridDualSelector
-                    selectedOutput1={output1}
-                    selectedOutput2={output2}
-                    onSelect1={setOutput1}
-                    onSelect2={setOutput2}
-                  />
+                  <div className="flex-shrink-0">
+                    <OutputGridDualSelector
+                      selectedOutput1={output1}
+                      selectedOutput2={output2}
+                      onSelect1={setOutput1}
+                      onSelect2={setOutput2}
+                    />
+                  </div>
+
+                  {/* Example Output - Centered in remaining space */}
+                  <div className="flex-1 flex flex-col items-center justify-center overflow-y-auto">
+                    <div>
+                      <p className="text-xs text-neutral-400 mb-2 text-center">Example Output:</p>
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() => setViewerImageUrl('/images/jack-and-jill.jpeg')}
+                          className={`relative rounded-md overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all w-24 h-24 ${showExampleBounce ? 'animate-shake' : ''}`}
+                        >
+                          <img
+                            src="/images/jack-and-jill.jpeg"
+                            alt="Example group selfie output"
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
                 <button
                   onClick={() => setStep(2)}
                   disabled={!output1 || !output2}
@@ -382,6 +431,18 @@ const GroupSelfiePage: React.FC = () => {
 
       {/* Bottom Navigation - Mobile Only */}
       <BottomNav />
+
+      {/* Shake Animation */}
+      <style>{`
+        @keyframes shake {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(-5deg); }
+          75% { transform: rotate(5deg); }
+        }
+        .animate-shake {
+          animation: shake 0.5s ease-in-out 2;
+        }
+      `}</style>
     </div>
   );
 };

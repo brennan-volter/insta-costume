@@ -17,8 +17,8 @@ const GalleryPage: React.FC = () => {
     : outputs.filter(output => output.outputType === filterType);
 
   return (
-    <div className="min-h-screen bg-neutral-950 py-20 pb-32 md:pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-neutral-950 pt-20 md:py-20">
+      <div className="max-w-7xl mx-auto md:px-4 sm:px-6 lg:px-8">
         {/* Gallery */}
         <div className="bg-neutral-800 border border-neutral-700 rounded-md shadow-2xl overflow-hidden">
           <div
