@@ -35,11 +35,11 @@ const OutputsCarousel: React.FC<OutputsCarouselProps> = ({ outputType, title }) 
           {filteredOutputs.slice(0, 10).map((output) => (
             <button
               key={output.id}
-              onClick={() => setSelectedImageUrl(output.imageUrl)}
+              onClick={() => setSelectedImageUrl(output.imageSrc)}
               className="flex-shrink-0 w-24 h-24 rounded overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all"
             >
               <img
-                src={output.imageUrl}
+                src={output.imageSrc}
                 alt={output.costumeDescription}
                 className="w-full h-full object-contain bg-neutral-900"
               />

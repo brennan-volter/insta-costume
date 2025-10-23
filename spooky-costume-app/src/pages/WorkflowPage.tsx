@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useSubscribeDev } from '@subscribe.dev/react';
 import PersonSelector from '../components/person/PersonSelector';
-import PersonManager from '../components/person/PersonManager';
+import AddPersonForm from '../components/person/AddPersonForm';
 import OutputsCarousel from '../components/output/OutputsCarousel';
 import ImageViewerModal from '../components/output/ImageViewerModal';
 import BottomNav from '../components/shared/BottomNav';
 import { usePersons } from '../hooks/usePersons';
 import { useOutputHistory } from '../hooks/useOutputHistory';
 import type { Person } from '../types';
+import { imageUrlToBase64 } from '../utils/imageConverter';
 
 const WorkflowPage: React.FC = () => {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ const WorkflowPage: React.FC = () => {
   const [countdown, setCountdown] = useState(15);
   const [error, setError] = useState<string | null>(null);
   const [errorType, setErrorType] = useState<'insufficient_credits' | 'other' | null>(null);
-  const [showPersonManager, setShowPersonManager] = useState(false);
+  const [showAddPersonForm, setShowAddPersonForm] = useState(false);
   const [viewerImageUrl, setViewerImageUrl] = useState<string | null>(null);
 
   const { client, subscribe } = useSubscribeDev();
@@ -97,8 +98,11 @@ const WorkflowPage: React.FC = () => {
 
       // Save output to history
       if (response.output?.portrait?.image) {
+        // Convert image URL to base64 for persistent storage
+        const imageBase64 = await imageUrlToBase64(response.output.portrait.image);
+
         addOutput(
-          response.output.portrait.image,
+          imageBase64,
           costume,
           'costume', // Output type
           selectedPerson?.id,
@@ -127,32 +131,32 @@ const WorkflowPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 py-20 pb-32 md:pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-neutral-950 pt-20 md:py-20">
+      <div className="max-w-7xl mx-auto md:px-4 sm:px-6 lg:px-8">
         {/* Main workflow interface */}
         <div className="bg-neutral-800 border border-neutral-700 rounded-md shadow-2xl overflow-hidden">
           <div
-            className="px-6 py-5 border-b border-neutral-700"
+            className="px-4 py-3 md:px-6 md:py-5 border-b border-neutral-700"
             style={{ background: 'var(--gradient-card)' }}
           >
-            <h1 className="font-display font-bold text-3xl text-neutral-100">{t('workflow.title')}</h1>
-            <p className="text-neutral-300 mt-2">{t('workflow.subtitle')}</p>
-            <div className="mt-3 inline-block px-3 py-1 bg-orange-600/20 border border-orange-600/40 rounded">
-              <span className="text-sm text-orange-300 font-medium">
-                🍬 5 {t('user.candy')}
+            <div className="flex items-center justify-between gap-3">
+              <h1 className="font-display font-bold text-xl md:text-3xl text-neutral-100">{t('workflow.title')}</h1>
+              <span className="text-xs md:text-sm text-orange-300 font-medium whitespace-nowrap px-2 py-1 md:px-3 bg-orange-600/20 border border-orange-600/40 rounded">
+                🍬 5
               </span>
             </div>
+            <p className="text-neutral-300 text-xs md:text-base mt-1 md:mt-2">{t('workflow.subtitle')}</p>
           </div>
 
-          <div className="p-6">
+          {/* Desktop: Regular layout */}
+          <div className="hidden md:block p-6">
             <div className="max-w-2xl mx-auto">
-              {/* Input Section */}
               <div>
                 <div className="mb-6">
                   <PersonSelector
                     selectedPersonId={selectedPerson?.id || null}
                     onSelect={setSelectedPerson}
-                    onManageClick={() => setShowPersonManager(true)}
+                    onAddClick={() => setShowAddPersonForm(true)}
                   />
                 </div>
 
@@ -164,9 +168,9 @@ const WorkflowPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleRandomCostume}
-                      className="px-3 py-1 text-xs font-medium bg-purple-600 hover:bg-purple-500 text-neutral-100 rounded transition-colors"
+                      className="px-3 py-1 text-xs font-medium bg-purple-600 hover:bg-purple-500 text-neutral-100 rounded transition-colors whitespace-nowrap"
                     >
-                      🎲 Decide for me
+                      🎲 Random
                     </button>
                   </div>
                   <textarea
@@ -174,7 +178,7 @@ const WorkflowPage: React.FC = () => {
                     onChange={(e) => setCostume(e.target.value)}
                     placeholder={t('workflow.costumePlaceholder')}
                     className="w-full p-3 bg-neutral-700 border-2 border-neutral-600 text-neutral-200 placeholder-neutral-500 rounded focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
-                    rows={4}
+                    rows={3}
                   />
                   <p className="text-xs text-neutral-400 mt-1">
                     {t('workflow.costumeHint')}
@@ -183,14 +187,21 @@ const WorkflowPage: React.FC = () => {
 
                 <button
                   onClick={handleSubmit}
-                  disabled={loading || !costume.trim()}
+                  disabled={loading || !costume.trim() || !selectedPerson}
                   className="w-full py-4 px-6 rounded font-display font-bold text-lg text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105"
                   style={{
-                    background: loading || !costume.trim() ? '#52525b' : 'var(--gradient-primary)',
-                    boxShadow: loading || !costume.trim() ? 'none' : 'var(--shadow-glow-purple)',
+                    background: loading || !costume.trim() || !selectedPerson ? '#52525b' : 'var(--gradient-primary)',
+                    boxShadow: loading || !costume.trim() || !selectedPerson ? 'none' : 'var(--shadow-glow-purple)',
                   }}
                 >
-                  {loading ? 'Summoning...' : t('workflow.generateButton')}
+                  {loading
+                    ? 'Summoning...'
+                    : !selectedPerson
+                      ? 'Select a person above'
+                      : !costume.trim()
+                        ? 'Enter a costume description'
+                        : t('workflow.generateButton')
+                  }
                 </button>
 
                 {error && errorType === 'insufficient_credits' && (
@@ -227,12 +238,96 @@ const WorkflowPage: React.FC = () => {
                   </div>
                 )}
 
-                {/* Previous Generations Carousel */}
                 <OutputsCarousel outputType="costume" />
               </div>
             </div>
           </div>
+
+          {/* Mobile: Fixed height container */}
+          <div className="md:hidden">
+            <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
+            <div className="flex-1 overflow-y-auto">
+              <div className="mb-4">
+                <PersonSelector
+                  selectedPersonId={selectedPerson?.id || null}
+                  onSelect={setSelectedPerson}
+                  onAddClick={() => setShowAddPersonForm(true)}
+                />
+              </div>
+
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-neutral-200">
+                    {t('workflow.costumeLabel')} <span className="text-red-500">*</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleRandomCostume}
+                    className="px-2 py-1 text-xs font-medium bg-purple-600 hover:bg-purple-500 text-neutral-100 rounded transition-colors whitespace-nowrap"
+                  >
+                    🎲 Random
+                  </button>
+                </div>
+                <textarea
+                  value={costume}
+                  onChange={(e) => setCostume(e.target.value)}
+                  placeholder={t('workflow.costumePlaceholder')}
+                  className="w-full p-3 bg-neutral-700 border-2 border-neutral-600 text-neutral-200 placeholder-neutral-500 rounded focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                  rows={3}
+                />
+                <p className="text-xs text-neutral-400 mt-1">
+                  {t('workflow.costumeHint')}
+                </p>
+              </div>
+
+              {error && errorType === 'insufficient_credits' && (
+                <div className="mb-4 p-3 bg-orange-950/50 border-l-4 border-orange-500 text-orange-300 rounded">
+                  <div className="flex items-start gap-2">
+                    <span className="text-xl flex-shrink-0">🍬</span>
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{error}</p>
+                      <button
+                        onClick={() => subscribe()}
+                        className="mt-2 px-3 py-1 rounded font-display font-semibold text-xs text-neutral-100 transition-all"
+                        style={{
+                          background: 'var(--gradient-primary)',
+                        }}
+                      >
+                        Get More Candy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {error && errorType === 'other' && (
+                <div className="mb-4 p-3 bg-red-950/50 border-l-4 border-red-500 text-red-300 rounded">
+                  <p className="font-medium text-sm">{error}</p>
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={handleSubmit}
+              disabled={loading || !costume.trim() || !selectedPerson}
+              className="mt-4 w-full py-3 px-6 rounded font-display font-bold text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              style={{
+                background: loading || !costume.trim() || !selectedPerson ? '#52525b' : 'var(--gradient-primary)',
+                boxShadow: loading || !costume.trim() || !selectedPerson ? 'none' : 'var(--shadow-glow-purple)',
+              }}
+            >
+              {loading
+                ? 'Summoning...'
+                : !selectedPerson
+                  ? 'Select a person above'
+                  : !costume.trim()
+                    ? 'Enter a costume description'
+                    : t('workflow.generateButton')
+              }
+            </button>
+          </div>
         </div>
+      </div>
       </div>
 
       {/* Countdown Overlay */}
@@ -255,10 +350,10 @@ const WorkflowPage: React.FC = () => {
         </div>
       )}
 
-      {/* Person Manager Modal */}
-      <PersonManager
-        isOpen={showPersonManager}
-        onClose={() => setShowPersonManager(false)}
+      {/* Add Person Form Modal */}
+      <AddPersonForm
+        isOpen={showAddPersonForm}
+        onClose={() => setShowAddPersonForm(false)}
       />
 
       {/* Image Viewer Modal */}

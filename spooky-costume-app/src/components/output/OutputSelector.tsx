@@ -47,7 +47,7 @@ const OutputSelector: React.FC<OutputSelectorProps> = ({
             <div className="bg-neutral-900 border-2 border-purple-600 rounded p-4 mb-3">
               <div className="flex items-center gap-4">
                 <img
-                  src={selectedOutput.imageUrl}
+                  src={selectedOutput.imageSrc}
                   alt={selectedOutput.costumeDescription}
                   className="w-20 h-20 rounded object-cover"
                 />
@@ -90,7 +90,7 @@ const OutputSelector: React.FC<OutputSelectorProps> = ({
                   className="bg-neutral-900 border-2 border-neutral-700 hover:border-purple-600 rounded overflow-hidden transition-all group"
                 >
                   <img
-                    src={output.imageUrl}
+                    src={output.imageSrc}
                     alt={output.costumeDescription}
                     className="w-full aspect-square object-cover"
                   />

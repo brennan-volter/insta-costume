@@ -8,7 +8,7 @@ export type Person = {
 
 export type CostumeOutput = {
   id: string;
-  imageUrl: string;
+  imageSrc: string; // Image source (base64 data URL or file path)
   costumeDescription: string;
   personId?: string;
   personName?: string;

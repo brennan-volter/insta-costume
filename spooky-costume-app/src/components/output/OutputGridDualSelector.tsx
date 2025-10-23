@@ -101,43 +101,45 @@ const OutputGridDualSelector: React.FC<OutputGridDualSelectorProps> = ({
         Select two portraits to combine into a group selfie
       </label>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-        {costumeOutputs.map((output) => (
-          <button
-            key={output.id}
-            onClick={() => handleOutputClick(output)}
-            className={`relative bg-neutral-900 rounded p-2 transition-all group ${getBorderClass(output)}`}
-          >
-            <div className="aspect-square rounded overflow-hidden mb-2">
-              <img
-                src={output.imageUrl}
-                alt={output.costumeDescription}
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-            {getBadge(output)}
-            {output.personName && (
-              <p className="text-xs font-medium text-neutral-300 group-hover:text-purple-300 truncate">
-                {output.personName}
-              </p>
-            )}
-          </button>
-        ))}
+      <div className="max-h-[400px] overflow-y-auto overflow-x-hidden rounded border-2 border-neutral-700 p-3 bg-neutral-900/50">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+          {costumeOutputs.map((output) => (
+            <button
+              key={output.id}
+              onClick={() => handleOutputClick(output)}
+              className={`relative bg-neutral-900 rounded p-2 transition-all group ${getBorderClass(output)}`}
+            >
+              <div className="aspect-square rounded overflow-hidden mb-2">
+                <img
+                  src={output.imageSrc}
+                  alt={output.costumeDescription}
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+              {getBadge(output)}
+              {output.personName && (
+                <p className="text-xs font-medium text-neutral-300 group-hover:text-purple-300 truncate">
+                  {output.personName}
+                </p>
+              )}
+            </button>
+          ))}
 
-        {/* Add New Portrait Card */}
-        <Link
-          to="/app"
-          className="relative bg-neutral-900 border-2 border-dashed border-neutral-700 hover:border-purple-600 rounded p-2 transition-all group flex flex-col items-center justify-center"
-        >
-          <div className="aspect-square rounded overflow-hidden mb-2 flex items-center justify-center">
-            <svg className="w-12 h-12 text-neutral-600 group-hover:text-purple-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-          </div>
-          <p className="text-xs font-medium text-neutral-500 group-hover:text-purple-300 transition-colors text-center">
-            Add Portrait
-          </p>
-        </Link>
+          {/* Add New Portrait Card */}
+          <Link
+            to="/app"
+            className="relative bg-neutral-900 border-2 border-dashed border-neutral-700 hover:border-purple-600 rounded p-2 transition-all group flex flex-col items-center justify-center"
+          >
+            <div className="aspect-square rounded overflow-hidden mb-2 flex items-center justify-center">
+              <svg className="w-12 h-12 text-neutral-600 group-hover:text-purple-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <p className="text-xs font-medium text-neutral-500 group-hover:text-purple-300 transition-colors text-center">
+              Add Portrait
+            </p>
+          </Link>
+        </div>
       </div>
 
       {(selectedOutput1 || selectedOutput2) && (

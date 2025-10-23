@@ -22,7 +22,7 @@ interface OutputsContextType {
   outputsForSelection: CostumeOutput[];
   syncStatus: string;
   addOutput: (
-    imageUrl: string,
+    imageSrc: string,
     costumeDescription: string,
     outputType: 'costume' | 'group_selfie',
     personId?: string,
@@ -60,7 +60,7 @@ const BUILT_IN_PERSONS: Person[] = [
 const BUILT_IN_OUTPUTS: CostumeOutput[] = [
   {
     id: 'builtin_output_jack',
-    imageUrl: jackCostumeImage,
+    imageSrc: jackCostumeImage,
     costumeDescription: 'Jack Mascot Costume',
     outputType: 'costume',
     personId: 'builtin_jack',
@@ -70,7 +70,7 @@ const BUILT_IN_OUTPUTS: CostumeOutput[] = [
   },
   {
     id: 'builtin_output_jill',
-    imageUrl: jillCostumeImage,
+    imageSrc: jillCostumeImage,
     costumeDescription: 'Jill Mascot Costume',
     outputType: 'costume',
     personId: 'builtin_jill',
@@ -90,14 +90,23 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return [...BUILT_IN_PERSONS, ...(persons || [])];
   }, [persons]);
 
-  // Migration: Add outputType to existing outputs that don't have it
+  // Migration: Add outputType and rename imageUrl to imageSrc for existing outputs
   useEffect(() => {
     if (!outputs || outputs.length === 0) return;
 
     let needsMigration = false;
     const migratedOutputs = outputs.map((output: any) => {
-      // Check if output is missing outputType field
-      if (!output.outputType) {
+      let migratedOutput = { ...output };
+
+      // Migrate imageUrl to imageSrc
+      if (output.imageUrl && !output.imageSrc) {
+        needsMigration = true;
+        migratedOutput.imageSrc = output.imageUrl;
+        delete migratedOutput.imageUrl;
+      }
+
+      // Add outputType if missing
+      if (!migratedOutput.outputType) {
         needsMigration = true;
 
         // Infer type from credits (5 = costume, 7 = group selfie)
@@ -108,12 +117,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           inferredType = 'group_selfie';
         }
 
-        return {
-          ...output,
-          outputType: inferredType
-        };
+        migratedOutput.outputType = inferredType;
       }
-      return output;
+
+      return migratedOutput;
     });
 
     if (needsMigration) {
@@ -168,7 +175,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Outputs functions
   const addOutput = (
-    imageUrl: string,
+    imageSrc: string,
     costumeDescription: string,
     outputType: 'costume' | 'group_selfie',
     personId?: string,
@@ -177,7 +184,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   ): CostumeOutput => {
     const newOutput: CostumeOutput = {
       id: `output_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      imageUrl,
+      imageSrc,
       costumeDescription,
       outputType,
       personId,

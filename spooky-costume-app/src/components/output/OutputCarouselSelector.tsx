@@ -80,7 +80,7 @@ const OutputCarouselSelector: React.FC<OutputCarouselSelectorProps> = ({
                   }`}
                 >
                   <img
-                    src={output.imageUrl}
+                    src={output.imageSrc}
                     alt={output.costumeDescription}
                     className="w-full h-full object-contain bg-neutral-900"
                   />

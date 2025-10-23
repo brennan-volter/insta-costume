@@ -22,11 +22,11 @@ const GalleryPage: React.FC = () => {
         {/* Gallery */}
         <div className="bg-neutral-800 border border-neutral-700 rounded-md shadow-2xl overflow-hidden">
           <div
-            className="px-6 py-5 border-b border-neutral-700"
+            className="px-4 py-3 md:px-6 md:py-5 border-b border-neutral-700"
             style={{ background: 'var(--gradient-card)' }}
           >
-            <h1 className="font-display font-bold text-3xl text-neutral-100">{t('gallery.title')}</h1>
-            <p className="text-neutral-300 mt-2">{t('gallery.subtitle')}</p>
+            <h1 className="font-display font-bold text-xl md:text-3xl text-neutral-100">{t('gallery.title')}</h1>
+            <p className="text-neutral-300 text-xs md:text-base mt-1 md:mt-2">{t('gallery.subtitle')}</p>
           </div>
 
           <div className="p-6">
@@ -94,10 +94,10 @@ const GalleryPage: React.FC = () => {
                   <div
                     key={output.id}
                     className="group relative bg-neutral-900 rounded overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all cursor-pointer"
-                    onClick={() => setSelectedImageUrl(output.imageUrl)}
+                    onClick={() => setSelectedImageUrl(output.imageSrc)}
                   >
                     <img
-                      src={output.imageUrl}
+                      src={output.imageSrc}
                       alt={output.costumeDescription}
                       className="w-full aspect-square object-contain"
                     />

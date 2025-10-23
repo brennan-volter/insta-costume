@@ -7,9 +7,11 @@ import ImageViewerModal from '../components/output/ImageViewerModal';
 import BottomNav from '../components/shared/BottomNav';
 import { useOutputHistory } from '../hooks/useOutputHistory';
 import type { CostumeOutput } from '../types';
+import { imageUrlToBase64 } from '../utils/imageConverter';
 
 const GroupSelfiePage: React.FC = () => {
   const { t } = useTranslation();
+  const [step, setStep] = useState(1); // Mobile step navigation (1 or 2)
   const [output1, setOutput1] = useState<CostumeOutput | null>(null);
   const [output2, setOutput2] = useState<CostumeOutput | null>(null);
   const [setting, setSetting] = useState('Halloween party');
@@ -82,8 +84,8 @@ const GroupSelfiePage: React.FC = () => {
     try {
       const response = await client.run('workflow/85975d99-929e-4aa3-a69d-71ad2e77bb1d', {
         input: {
-          ...(output1 ? { person_1: output1.imageUrl } : {}),
-          ...(output2 ? { person_2: output2.imageUrl } : {}),
+          ...(output1 ? { person_1: output1.imageSrc } : {}),
+          ...(output2 ? { person_2: output2.imageSrc } : {}),
           setting: setting
         }
       });
@@ -93,8 +95,11 @@ const GroupSelfiePage: React.FC = () => {
 
       // Save group selfie output to history
       if (response.output?.group_selfie?.image) {
+        // Convert image URL to base64 for persistent storage
+        const imageBase64 = await imageUrlToBase64(response.output.group_selfie.image);
+
         addOutput(
-          response.output.group_selfie.image,
+          imageBase64,
           setting,
           'group_selfie', // Output type
           undefined, // No single person ID for group selfie
@@ -118,26 +123,26 @@ const GroupSelfiePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 py-20 pb-32 md:pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-neutral-950 pt-20 md:py-20">
+      <div className="max-w-7xl mx-auto md:px-4 sm:px-6 lg:px-8">
         {/* Main workflow interface */}
         <div className="bg-neutral-800 border border-neutral-700 rounded-md shadow-2xl overflow-hidden">
           <div
-            className="px-6 py-5 border-b border-neutral-700"
+            className="px-4 py-3 md:px-6 md:py-5 border-b border-neutral-700"
             style={{ background: 'var(--gradient-card)' }}
           >
-            <h1 className="font-display font-bold text-3xl text-neutral-100">{t('groupSelfie.title')}</h1>
-            <p className="text-neutral-300 mt-2">{t('groupSelfie.subtitle')}</p>
-            <div className="mt-3 inline-block px-3 py-1 bg-orange-600/20 border border-orange-600/40 rounded">
-              <span className="text-sm text-orange-300 font-medium">
-                🍬 7 {t('user.candy')}
+            <div className="flex items-center justify-between gap-3">
+              <h1 className="font-display font-bold text-xl md:text-3xl text-neutral-100">{t('groupSelfie.title')}</h1>
+              <span className="text-xs md:text-sm text-orange-300 font-medium whitespace-nowrap px-2 py-1 md:px-3 bg-orange-600/20 border border-orange-600/40 rounded">
+                🍬 7
               </span>
             </div>
+            <p className="text-neutral-300 text-xs md:text-base mt-1 md:mt-2">{t('groupSelfie.subtitle')}</p>
           </div>
 
-          <div className="p-6">
+          {/* Desktop: Single page view */}
+          <div className="hidden md:block p-6">
             <div className="max-w-2xl mx-auto">
-              {/* Input Section */}
               <div>
                 <div className="mb-6">
                   <OutputGridDualSelector
@@ -176,14 +181,21 @@ const GroupSelfiePage: React.FC = () => {
 
                 <button
                   onClick={handleSubmit}
-                  disabled={loading || !setting.trim()}
+                  disabled={loading || !setting.trim() || !output1 || !output2}
                   className="w-full py-4 px-6 rounded font-display font-bold text-lg text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105"
                   style={{
-                    background: loading || !setting.trim() ? '#52525b' : 'var(--gradient-primary)',
-                    boxShadow: loading || !setting.trim() ? 'none' : 'var(--shadow-glow-purple)',
+                    background: loading || !setting.trim() || !output1 || !output2 ? '#52525b' : 'var(--gradient-primary)',
+                    boxShadow: loading || !setting.trim() || !output1 || !output2 ? 'none' : 'var(--shadow-glow-purple)',
                   }}
                 >
-                  {loading ? 'Bobbing for Apples...' : t('groupSelfie.generateButton')}
+                  {loading
+                    ? 'Bobbing for Apples...'
+                    : !output1 || !output2
+                      ? 'Select 2 portraits above'
+                      : !setting.trim()
+                        ? 'Enter a scene description'
+                        : t('groupSelfie.generateButton')
+                  }
                 </button>
 
                 {error && errorType === 'insufficient_credits' && (
@@ -220,10 +232,122 @@ const GroupSelfiePage: React.FC = () => {
                   </div>
                 )}
 
-                {/* Previous Generations Carousel */}
                 <OutputsCarousel outputType="group_selfie" />
               </div>
             </div>
+          </div>
+
+          {/* Mobile: Two-step flow */}
+          <div className="md:hidden">
+            {/* Step 1: Portrait Selection */}
+            {step === 1 && (
+              <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
+                <div className="flex-1 overflow-y-auto">
+                  <h2 className="text-sm font-medium text-purple-300 mb-3">Step 1 of 2: Choose 2 Portraits</h2>
+                  <OutputGridDualSelector
+                    selectedOutput1={output1}
+                    selectedOutput2={output2}
+                    onSelect1={setOutput1}
+                    onSelect2={setOutput2}
+                  />
+                </div>
+                <button
+                  onClick={() => setStep(2)}
+                  disabled={!output1 || !output2}
+                  className="mt-4 w-full py-3 px-6 rounded font-display font-bold text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  style={{
+                    background: !output1 || !output2 ? '#52525b' : 'var(--gradient-primary)',
+                    boxShadow: !output1 || !output2 ? 'none' : 'var(--shadow-glow-purple)',
+                  }}
+                >
+                  {!output1 || !output2 ? 'Select 2 portraits' : 'Next: Set the Scene →'}
+                </button>
+              </div>
+            )}
+
+            {/* Step 2: Scene Description & Generate */}
+            {step === 2 && (
+              <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
+                <div className="flex-1 overflow-y-auto">
+                  <h2 className="text-sm font-medium text-purple-300 mb-3">Step 2 of 2: Set the Scene</h2>
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="block text-sm font-medium text-neutral-200">
+                        {t('groupSelfie.settingLabel')} <span className="text-red-500">*</span>
+                      </label>
+                      <button
+                        type="button"
+                        onClick={handleRandomSetting}
+                        className="px-2 py-1 text-xs font-medium bg-purple-600 hover:bg-purple-500 text-neutral-100 rounded transition-colors"
+                      >
+                        🎲 Random
+                      </button>
+                    </div>
+                    <textarea
+                      value={setting}
+                      onChange={(e) => setSetting(e.target.value)}
+                      placeholder={t('groupSelfie.settingPlaceholder')}
+                      className="w-full p-3 bg-neutral-700 border-2 border-neutral-600 text-neutral-200 placeholder-neutral-500 rounded focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                      rows={3}
+                    />
+                    <p className="text-xs text-neutral-400 mt-1">
+                      {t('groupSelfie.settingHint')}
+                    </p>
+                  </div>
+
+                  {error && errorType === 'insufficient_credits' && (
+                    <div className="mb-4 p-3 bg-orange-950/50 border-l-4 border-orange-500 text-orange-300 rounded">
+                      <div className="flex items-start gap-2">
+                        <span className="text-xl flex-shrink-0">🍬</span>
+                        <div className="flex-1">
+                          <p className="font-medium text-sm">{error}</p>
+                          <button
+                            onClick={() => subscribe()}
+                            className="mt-2 px-3 py-1 rounded font-display font-semibold text-xs text-neutral-100 transition-all"
+                            style={{
+                              background: 'var(--gradient-primary)',
+                            }}
+                          >
+                            Get More Candy
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {error && errorType === 'other' && (
+                    <div className="mb-4 p-3 bg-red-950/50 border-l-4 border-red-500 text-red-300 rounded">
+                      <p className="font-medium text-sm">{error}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2 mt-4">
+                  <button
+                    onClick={handleSubmit}
+                    disabled={loading || !setting.trim() || !output1 || !output2}
+                    className="w-full py-3 px-6 rounded font-display font-bold text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    style={{
+                      background: loading || !setting.trim() || !output1 || !output2 ? '#52525b' : 'var(--gradient-primary)',
+                      boxShadow: loading || !setting.trim() || !output1 || !output2 ? 'none' : 'var(--shadow-glow-purple)',
+                    }}
+                  >
+                    {loading
+                      ? 'Bobbing for Apples...'
+                      : !setting.trim()
+                        ? 'Enter a scene description'
+                        : t('groupSelfie.generateButton')
+                    }
+                  </button>
+                  <button
+                    onClick={() => setStep(1)}
+                    className="w-full py-2 px-6 rounded font-display font-medium text-neutral-300 bg-neutral-700 hover:bg-neutral-600 transition-all"
+                  >
+                    ← Back to Portrait Selection
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
