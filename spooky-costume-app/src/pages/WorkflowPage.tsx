@@ -76,9 +76,9 @@ const WorkflowPage: React.FC = () => {
     }
   }, [result]);
 
-  // Trigger shake animation when entering step 1
+  // Trigger shake animation when entering step 2
   useEffect(() => {
-    if (step === 1) {
+    if (step === 2) {
       setShowExampleBounce(true);
       const timer = setTimeout(() => setShowExampleBounce(false), 1000);
       return () => clearTimeout(timer);
@@ -276,36 +276,14 @@ const WorkflowPage: React.FC = () => {
             {/* Step 1: Person Selection */}
             {step === 1 && (
               <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
-                <div className="flex-1 flex flex-col overflow-hidden">
-                  <h2 className="text-sm font-medium text-purple-300 mb-3">Step 1 of 2: Choose a Person</h2>
-                  <div className="flex-shrink-0">
-                    <PersonSelector
-                      selectedPersonId={selectedPerson?.id || null}
-                      onSelect={setSelectedPerson}
-                      onAddClick={() => setShowAddPersonForm(true)}
-                    />
-                  </div>
-
-                  {/* Example Output - Centered in remaining space */}
-                  <div className="flex-1 flex flex-col items-center justify-center overflow-y-auto">
-                    <div>
-                      <p className="text-xs text-neutral-400 mb-2 text-center">Example Output:</p>
-                      <div className="flex justify-center">
-                        <button
-                          onClick={() => setViewerImageUrl('/images/jack-costume.jpeg')}
-                          className={`relative rounded-md overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all w-24 h-24 ${showExampleBounce ? 'animate-shake' : ''}`}
-                        >
-                          <img
-                            src="/images/jack-costume.jpeg"
-                            alt="Example costume output"
-                            className="w-full h-full object-cover"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                <div className="flex-1 overflow-y-auto">
+                  <h2 className="text-sm font-medium text-purple-300 mb-3">Step 1 of 2: Choose a Selfie</h2>
+                  <PersonSelector
+                    selectedPersonId={selectedPerson?.id || null}
+                    onSelect={setSelectedPerson}
+                    onAddClick={() => setShowAddPersonForm(true)}
+                  />
                 </div>
-
                 <button
                   onClick={() => setStep(2)}
                   disabled={!selectedPerson}
@@ -315,7 +293,7 @@ const WorkflowPage: React.FC = () => {
                     boxShadow: !selectedPerson ? 'none' : 'var(--shadow-glow-purple)',
                   }}
                 >
-                  {!selectedPerson ? 'Select a person' : 'Next: Pick a Costume →'}
+                  {!selectedPerson ? 'Select a selfie' : 'Next: Pick a Costume →'}
                 </button>
               </div>
             )}
@@ -323,9 +301,9 @@ const WorkflowPage: React.FC = () => {
             {/* Step 2: Costume Description & Generate */}
             {step === 2 && (
               <div className="p-4 flex flex-col h-[calc(100vh-240px)]">
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 flex flex-col overflow-hidden">
                   <h2 className="text-sm font-medium text-purple-300 mb-3">Step 2 of 2: Pick a Costume</h2>
-                  <div className="mb-4">
+                  <div className="flex-shrink-0">
                     <div className="flex items-center justify-between mb-2">
                       <label className="block text-sm font-medium text-neutral-200">
                         {t('workflow.costumeLabel')} <span className="text-red-500">*</span>
@@ -350,8 +328,27 @@ const WorkflowPage: React.FC = () => {
                     </p>
                   </div>
 
+                  {/* Example Output - Centered in remaining space */}
+                  <div className="flex-1 flex flex-col items-center justify-center overflow-y-auto">
+                    <div>
+                      <p className="text-xs text-neutral-400 mb-2 text-center">Example Output:</p>
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() => setViewerImageUrl('/images/jack-costume.jpeg')}
+                          className={`relative rounded-md overflow-hidden border-2 border-neutral-700 hover:border-purple-500 transition-all w-24 h-24 ${showExampleBounce ? 'animate-shake' : ''}`}
+                        >
+                          <img
+                            src="/images/jack-costume.jpeg"
+                            alt="Example costume output"
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                   {error && errorType === 'insufficient_credits' && (
-                    <div className="mb-4 p-3 bg-orange-950/50 border-l-4 border-orange-500 text-orange-300 rounded">
+                    <div className="flex-shrink-0 mb-4 p-3 bg-orange-950/50 border-l-4 border-orange-500 text-orange-300 rounded">
                       <div className="flex items-start gap-2">
                         <span className="text-xl flex-shrink-0">🍬</span>
                         <div className="flex-1">
@@ -371,7 +368,7 @@ const WorkflowPage: React.FC = () => {
                   )}
 
                   {error && errorType === 'other' && (
-                    <div className="mb-4 p-3 bg-red-950/50 border-l-4 border-red-500 text-red-300 rounded">
+                    <div className="flex-shrink-0 mb-4 p-3 bg-red-950/50 border-l-4 border-red-500 text-red-300 rounded">
                       <p className="font-medium text-sm">{error}</p>
                     </div>
                   )}
