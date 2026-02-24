@@ -65,7 +65,7 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <SubscribeDevProvider projectToken={import.meta.env.VITE_SUBSCRIBEDEV_PROJECT_TOKEN}>
+    <SubscribeDevProvider project="spooky-app">
       <DataProvider>
         <AppContent />
       </DataProvider>
