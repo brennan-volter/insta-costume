@@ -12,7 +12,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@fontsource/space-grotesk": "^5.2.10",
-    "@subscribe.dev/react": "^0.0.251",
+    "@subscribe.dev/react": "^0.1.19",
     "@tailwindcss/vite": "^4.1.15",
     "i18next": "^25.6.0",
     "react": "^18.3.1",
