@@ -56,8 +56,8 @@
 
 :root {
   /* Custom CSS variables for complex values */
-  --gradient-primary: linear-gradient(135deg, #5a3d76 0%, #8f4e2a 100%);
-  --gradient-primary-hover: linear-gradient(135deg, #7a5a96 0%, #b8744d 100%);
+  --gradient-primary: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  --gradient-primary-hover: linear-gradient(45deg, #f0a353 0%, #e67a53 25%, #dc3c55 50%, #cc3975 75%, #bc3096 100%);
   --gradient-hero: linear-gradient(180deg, #120a1a 0%, #1a0f0a 50%, #0a0a0b 100%);
   --gradient-card: linear-gradient(145deg, #1e1029 0%, #2d1810 100%);
   --gradient-glow: radial-gradient(ellipse at center, rgba(90, 61, 118, 0.3) 0%, transparent 70%);
