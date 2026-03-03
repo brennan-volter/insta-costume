@@ -1,0 +1,86 @@
+name: QA Test on Preview
+
+on:
+  deployment_status:
+
+jobs:
+  qa-test:
+    # Only run when a Vercel preview deployment succeeds
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      issues: write
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Run QA tests
+        id: qa
+        uses: volter-ai/runhuman-action@v1
+        with:
+          url: ${{ github.event.deployment_status.target_url }}
+          pr-numbers: '[${{ github.event.deployment.payload.pr_number }}]'
+          api-key: ${{ secrets.RUNHUMAN_API_KEY }}
+          target-duration-minutes: 5
+          on-success-add-labels: '["qa:passed"]'
+          on-failure-add-labels: '["qa:failed"]'
+          fail-on-failure: true
+
+      - name: Comment QA results on PR
+        if: always() && steps.qa.outcome != 'skipped'
+        uses: actions/github-script@v7
+        env:
+          QA_STATUS: ${{ steps.qa.outputs.status }}
+          QA_SUCCESS: ${{ steps.qa.outputs.success }}
+          TESTED_ISSUES: ${{ steps.qa.outputs.tested-issues }}
+          PASSED_ISSUES: ${{ steps.qa.outputs.passed-issues }}
+          FAILED_ISSUES: ${{ steps.qa.outputs.failed-issues }}
+          COST_USD: ${{ steps.qa.outputs.cost-usd }}
+          DURATION: ${{ steps.qa.outputs.duration-seconds }}
+          JOB_URLS: ${{ steps.qa.outputs.job-urls }}
+          RESULTS: ${{ steps.qa.outputs.results }}
+        with:
+          script: |
+            const status = process.env.QA_STATUS;
+            const passed = JSON.parse(process.env.PASSED_ISSUES || '[]');
+            const failed = JSON.parse(process.env.FAILED_ISSUES || '[]');
+            const results = JSON.parse(process.env.RESULTS || '[]');
+            const jobUrls = JSON.parse(process.env.JOB_URLS || '[]');
+
+            let body;
+            if (status === 'no-issues') {
+              body = '📋 **No linked issues found** — no QA test was run.';
+            } else if (failed.length > 0) {
+              const failDetails = results
+                .filter(r => r.outcome === 'failure')
+                .map(r => `- **#${r.issueNumber}**: ${r.explanation}`)
+                .join('\n');
+              body = [
+                `❌ **QA failed!** — ${failed.map(n => '#' + n).join(', ')} failed human testing`,
+                '',
+                failDetails,
+                '',
+                jobUrls[0] ? `🧪 [View test run](${jobUrls[0]})` : '',
+                '',
+                '_Please fix the issues and push again._'
+              ].join('\n');
+            } else if (passed.length > 0) {
+              body = [
+                `✅ **QA passed!** — ${passed.map(n => '#' + n).join(', ')} verified by human tester`,
+                '',
+                `💰 Cost: $${process.env.COST_USD} | ⏱️ Duration: ${process.env.DURATION}s`,
+                jobUrls[0] ? `🧪 [View test run](${jobUrls[0]})` : '',
+                '',
+                '_Ready for review and merge._'
+              ].join('\n');
+            } else {
+              body = `ℹ️ **QA completed** — Status: ${status}`;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
