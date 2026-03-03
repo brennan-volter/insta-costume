@@ -40,6 +40,7 @@ jobs:
           DURATION: ${{ steps.qa.outputs.duration-seconds }}
           JOB_URLS: ${{ steps.qa.outputs.job-urls }}
           RESULTS: ${{ steps.qa.outputs.results }}
+          PR_NUMBER: ${{ github.event.deployment.payload.pr_number }}
         with:
           script: |
             const status = process.env.QA_STATUS;
@@ -81,6 +82,6 @@ jobs:
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ github.event.deployment.payload.pr_number }},
+              issue_number: Number(process.env.PR_NUMBER),
               body
             });
