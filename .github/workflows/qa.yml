@@ -13,12 +13,13 @@ jobs:
       contents: read
       pull-requests: write
 
-    env:
-      PREVIEW_URL: https://${{ github.head_ref }}-insta-costume.brennan-615.workers.dev
-
     steps:
       - name: Wait for Cloudflare preview deployment
         run: |
+          BRANCH="${{ github.head_ref }}"
+          SANITIZED=$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9-]/-/g')
+          PREVIEW_URL="https://${SANITIZED}-insta-costume.brennan-615.workers.dev"
+          echo "PREVIEW_URL=$PREVIEW_URL" >> "$GITHUB_ENV"
           echo "Waiting for preview at: $PREVIEW_URL"
           for i in $(seq 1 30); do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$PREVIEW_URL")
