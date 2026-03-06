@@ -1,0 +1,71 @@
+name: QA Smoke Test
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  smoke-test:
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'qa:smoke-test')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      issues: write
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run smoke test
+        id: qa
+        uses: volter-ai/runhuman-action@v1
+        with:
+          url: https://insta-costume.pages.dev
+          template-file: .runhuman/templates/smoke-test.md
+          api-key: ${{ secrets.RUNHUMAN_API_KEY }}
+          target-duration-minutes: 5
+          fail-on-failure: true
+
+      - name: Comment results on PR
+        if: always() && steps.qa.outcome != 'skipped'
+        uses: actions/github-script@v7
+        env:
+          QA_STATUS: ${{ steps.qa.outputs.status }}
+          QA_SUCCESS: ${{ steps.qa.outputs.success }}
+          COST_USD: ${{ steps.qa.outputs.cost-usd }}
+          DURATION: ${{ steps.qa.outputs.duration-seconds }}
+          JOB_URLS: ${{ steps.qa.outputs.job-urls }}
+          RESULTS: ${{ steps.qa.outputs.results }}
+        with:
+          script: |
+            const status = process.env.QA_STATUS;
+            const success = process.env.QA_SUCCESS === 'true';
+            const jobUrls = JSON.parse(process.env.JOB_URLS || '[]');
+            const prNumber = context.issue.number;
+
+            let body;
+            if (success) {
+              body = [
+                '**Smoke test passed** - Production site verified after merge.',
+                '',
+                `Cost: $${process.env.COST_USD} | Duration: ${process.env.DURATION}s`,
+                jobUrls[0] ? `[View test run](${jobUrls[0]})` : '',
+              ].join('\n');
+            } else {
+              body = [
+                '**Smoke test failed** - Production site has issues after merge.',
+                '',
+                jobUrls[0] ? `[View test run](${jobUrls[0]})` : '',
+                '',
+                '_Check the test results and investigate._'
+              ].join('\n');
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body
+            });
