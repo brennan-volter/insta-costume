@@ -22,7 +22,7 @@ jobs:
         id: qa
         uses: volter-ai/runhuman-action@v1
         with:
-          url: https://insta-costume.pages.dev
+          url: https://insta-costume.brennan-615.workers.dev/
           template-file: .runhuman/templates/smoke-test.md
           api-key: ${{ secrets.RUNHUMAN_API_KEY }}
           target-duration-minutes: 5

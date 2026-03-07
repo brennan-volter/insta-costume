@@ -2,7 +2,7 @@
 name: Smoke Test
 duration: 5
 screen_size: desktop
-url: https://insta-costume.pages.dev
+url: https://insta-costume.brennan-615.workers.dev/
 ---
 
 Verify the core user flow works end-to-end:
