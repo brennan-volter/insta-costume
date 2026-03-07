@@ -22,3 +22,4 @@ Sign-in flow is accessible: [ ]
 Workflow page loads: [ ]
 Navigation between pages works: [ ]
 Notes: ___
+Overall impression: ___
